@@ -72,7 +72,6 @@ public class SurveyActivity extends FragmentActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             getWindow().setDecorFitsSystemWindows(false);
         }
-        ActivityCompat.requestPermissions(SurveyActivity.this, new String[]{"android.permission.INTERNET"},0);
         setContentView(R.layout.activity_survey);
         setWidget();
         setSurveyInfo();
@@ -80,11 +79,97 @@ public class SurveyActivity extends FragmentActivity {
 
     private void setWidget() {
         setFullScreen();
+
+        btnAnswerIDs = new ArrayList<>();
+//        for (int i=1; i<7; i++)
+//            btnAnswerIDs.add(getResources().getIdentifier("rBtnAnswer"+i, "id", "kr.co.soulsoft.aitest200911"));
+        for (int i=0; i<6; i++) {
+            btnAnswerIDs.add(((RadioGroup) findViewById(R.id.rGrpAnswer)).getChildAt(i).getId());
+            findViewById(btnAnswerIDs.get(i)).setOnClickListener(answerClickListener);
+        }
+//        ((RadioGroup)findViewById(R.id.rGrpAnswer)).setOnCheckedChangeListener(checkedChangeListener);
     }
     private void setFullScreen() {
         View decor = this.getWindow().getDecorView();
         decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
+
+    private final View.OnClickListener answerClickListener;
+    {
+        answerClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    String survey_id, sub_id;
+                    if (totalData.getJSONObject(currentDataIndex).has("m_sub_id")) {
+                        survey_id = totalData.getJSONObject(currentDataIndex).getString("m_survey_id");
+                        sub_id = totalData.getJSONObject(currentDataIndex).getString("m_sub_id");
+                        addAnswer(btnAnswerIDs.indexOf(v.getId()), startTime, getCurrentTime(), survey_id, sub_id);
+                    } else {
+                        survey_id = totalData.getJSONObject(currentDataIndex).getString("m_survey_id");
+                        addAnswer(btnAnswerIDs.indexOf(v.getId()), startTime, getCurrentTime(), survey_id);
+                    }
+
+                    Log.i("응답 정보 : ", ANSWER_RECORDS.toString());
+                    pageHolding = false;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+    }
+
+    private void addAnswer(int answerNumber, String... answerDatas) {
+        int index = 0;
+        // 응답번호 첫번째 1 처리
+        int number = answerNumber + 1;
+
+        // 기 존재하는 응답의 경우 다시 쓰기 작업
+        for (String mainRecord : ANSWER_RECORDS) {
+            // 설문 항목이 존재하는지 체크
+            if (mainRecord.contains(answerDatas[2])) {
+                // 설문 하위 항목 입력 여부
+                if (answerDatas.length > 3) {
+                    // 설문 하위 항목이 존재하는지 체크
+                    String temp = answerDatas[3];
+                    int subIndex = 0;
+                    for (String subRecord : ANSWER_RECORDS) {
+                        if (subRecord.contains(answerDatas[3])) {
+                            ANSWER_RECORDS.set(subIndex, answerDatas[2] + "/"+answerDatas[3]+"/" + answerDatas[0] + "/" + answerDatas[1] + "/" + number);
+                            return;
+                        }
+                        subIndex++;
+                    }
+                    // 하위 항목은 존재하지만 새로운 응답일 경우
+                    ANSWER_RECORDS.add(answerDatas[2] + "/" + answerDatas[3] + "/" + answerDatas[0] + "/" + answerDatas[1] + "/" + number);
+                    return;
+                }
+                ANSWER_RECORDS.set(index, answerDatas[2] + "//" + answerDatas[0] + "/" + answerDatas[1] + "/" + number);
+                return;
+            }
+            index++;
+        }
+        // 신규 응답일 경우
+        if (answerDatas.length > 3) {
+            ANSWER_RECORDS.add(answerDatas[2] + "/"+answerDatas[3] + "/" + answerDatas[0] + "/" + answerDatas[1] + "/" + number);
+        } else {
+            ANSWER_RECORDS.add(answerDatas[2] + "//" + answerDatas[0] + "/" + answerDatas[1] + "/" + number);
+        }
+    }
+
+//    private final RadioGroup.OnCheckedChangeListener checkedChangeListener;
+//    {
+//        checkedChangeListener = new RadioGroup.OnCheckedChangeListener() {
+//            @SuppressLint("ResourceType")
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                if (checkedId > 0 && !alreadyChecked[0]) {
+//                    alreadyChecked[0] = true;
+//                    alreadyChecked[1] = false;
+//                }
+//            }
+//        };
+//    }
 
     private void setCategory() {
         categoryID = "cat_20201111141225";
