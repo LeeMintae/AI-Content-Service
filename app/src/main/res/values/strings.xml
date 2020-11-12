@@ -1,3 +1,42 @@
 <resources>
     <string name="app_name">AiTest200911</string>
+    <string name="btn_start">설문을 시작합니다</string>
+    <string name="btn_next_survey">다음으로</string>\
+    <string name="rbtn_empty">라디오버튼</string>
+    <string name="btn_prev_survey">이전으로</string>
+
+    <!--    Service Message-->
+    <string name="msg_survey_absent">설문 내용이 없습니다</string>
+
+
+    <!--    UI Message-->
+    <string name="msg_survey_purpose">&#160;&#160;본 설문은 여러가지 문항을 통해 사용자의 신체적 정신적인 건강유형을 파악하고, AI를 통해 사용자의 건강유형을 선별하여 적절한 서비스를 제공하기 위한 목적으로 진행됩니다. \n 등등등 내용 기술 </string>
+    <string name="msg_survey_prepare">질문을 잘 읽고 해당하는 답변을 선택해 주세요</string>
+    <string name="desc_default_image">기본 이미지</string>
+    <string name="notify_input_age">나이를 입력하세요</string>
+    <string name="notify_input_height">신장을 입력하세요</string>
+    <string name="notify_input_weight">체중을 입력하세요</string>
+    <string name="notify_input_healtheval">건강 평가를 해주세요</string>
+    <string name="notify_agree">개인 정보 수집 및 활용에 동의하지 않으면 설문을 진행하실 수 없습니다</string>
+
+    <!--    Hint-->
+    <string name="hint">입력하세요</string>
+
+    <string name="txt_bad">최악</string>
+    <string name="txt_no_good">나쁨</string>
+    <string name="txt_normal">보통</string>
+    <string name="txt_good">좋음</string>
+    <string name="txt_best">최상</string>
+
+
+    <!--    Base information-->
+    <string name="txt_base_category">기본 정보 및 건강 인식</string>
+    <string name="txt_gender">성별</string>
+    <string name="txt_birth">나이</string>
+    <string name="txt_height">신장</string>
+    <string name="txt_weight">체중</string>
+    <string name="txt_health">평소 본인의 건강상태에 대한 평가는?</string>
+    <string name="txt_individual_use">개인 정보 수집 및 활용 동의</string>
+    <string name="txt_agree">동의합니다</string>
+    <string name="txt_disagree">동의하지 않습니다</string>
 </resources>
