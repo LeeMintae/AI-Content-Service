@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AiTest200911</string>
+    <string name="app_name">나만의 다이어트</string>
     <string name="btn_start">설문을 시작합니다</string>
     <string name="btn_next_survey">다음으로</string>\
     <string name="rbtn_empty">라디오버튼</string>
@@ -7,10 +7,13 @@
 
     <!--    Service Message-->
     <string name="msg_survey_absent">설문 내용이 없습니다</string>
+    <string name="msg_survey_popup">설문 준비 중입니다</string>
+    <string name="msg_survey_dday_alarm">설문 시작일 (23)일 되면 활성화됩니다</string>
 
 
     <!--    UI Message-->
-    <string name="msg_survey_purpose">&#160;&#160;본 설문은 여러가지 문항을 통해 사용자의 신체적 정신적인 건강유형을 파악하고, AI를 통해 사용자의 건강유형을 선별하여 적절한 서비스를 제공하기 위한 목적으로 진행됩니다. \n 등등등 내용 기술 </string>
+    <string name="msg_survey_purpose">&#160;&#160;본 설문은 여러가지 문항을 통해 사용자의 신체적 정신적인 건강유형을 파악하고, AI를 통해 사용자의 건강유형을 선별하여 적절한 서비스를 제공하기 위한 목적으로 진행됩니다. \n
+    사용자의 개인정보는 분석을 위해서 개인의 동의하에 이용되며 3년 유지 후 추가의 개인정보 제공 동의가 없을경우 일괄 파기됩니다.</string>
     <string name="msg_survey_prepare">질문을 잘 읽고 해당하는 답변을 선택해 주세요</string>
     <string name="desc_default_image">기본 이미지</string>
     <string name="notify_input_age">나이를 입력하세요</string>

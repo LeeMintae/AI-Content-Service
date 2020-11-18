@@ -84,7 +84,7 @@ public class SurveyActivity extends FragmentActivity {
 //        for (int i=1; i<7; i++)
 //            btnAnswerIDs.add(getResources().getIdentifier("rBtnAnswer"+i, "id", "kr.co.soulsoft.aitest200911"));
         for (int i=0; i<6; i++) {
-            btnAnswerIDs.add(((RadioGroup) findViewById(R.id.rGrpAnswer)).getChildAt(i).getId());
+            btnAnswerIDs.add(((RadioGroup)findViewById(R.id.rGrpAnswer)).getChildAt(i).getId());
             findViewById(btnAnswerIDs.get(i)).setOnClickListener(answerClickListener);
         }
 //        ((RadioGroup)findViewById(R.id.rGrpAnswer)).setOnCheckedChangeListener(checkedChangeListener);
@@ -185,7 +185,7 @@ public class SurveyActivity extends FragmentActivity {
 
         subData = new ArrayList<>();
         new DatabaseRequest(getBaseContext(), findSurveyResult).execute("GET_SURVEY", categoryID);
-        btnAnswerIDs = new ArrayList<>();
+//        btnAnswerIDs = new ArrayList<>();
         ANSWER_RECORDS = new ArrayList<>();
     }
 
@@ -299,7 +299,9 @@ public class SurveyActivity extends FragmentActivity {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 if (position == pager.getChildCount()) {
-                    sendReply();
+                    // Youtube Content Survey Start
+
+//                    sendReply();
                 }
             }
 

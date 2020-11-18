@@ -2,7 +2,10 @@ package kr.co.soulsoft.aitest200911;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Network;
@@ -18,7 +21,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ParticipantActivity extends AppCompatActivity {
 
@@ -134,12 +139,40 @@ public class ParticipantActivity extends AppCompatActivity {
                 userInfo.add(((EditText)findViewById(R.id.eTxtWeight)).getText().toString());
                 userInfo.add(participantHealthEval+"");
 
+                Log.d("(((((((((((( 사용자 정보 )))))))", userInfo.toString());
+
                 Intent i = new Intent(ParticipantActivity.this, SurveyActivity.class);
                 i.putExtra(PARTICIPANT_INFO, userInfo);
 
-                startActivity(i);
+                if (checkDate()) {
+                    startActivity(i);
+                };
             }
         };
+    }
+
+    private boolean checkDate() {
+        Date mDate = new Date(System.currentTimeMillis());
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMdd");
+        String today = simpleDateFormat.format(mDate);
+
+        if (Integer.parseInt(today) < 1123) {
+            new AlertDialog.Builder(this).setTitle(getString(R.string.msg_survey_popup)).setMessage(getString(R.string.msg_survey_dday_alarm)).setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            finishAffinity();
+                            System.runFinalization();
+                            System.exit(0);
+                        }
+                    }).show();
+//            Toast.makeText(getBaseContext(), "아직 23일 전", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            return true;
+        }
     }
 
 
