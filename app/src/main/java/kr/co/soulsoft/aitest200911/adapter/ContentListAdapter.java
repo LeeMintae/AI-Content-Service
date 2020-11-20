@@ -15,13 +15,14 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
 import kr.co.prnd.YouTubePlayerView;
 import kr.co.soulsoft.aitest200911.R;
 
 public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.ViewHolder> {
 
-    private JSONArray mData = null;
+    private final JSONArray mData;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         CheckBox ckbContentSelect;
@@ -30,6 +31,10 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
 
         ViewHolder(View itemView) {
             super(itemView);
+
+            ckbContentSelect = itemView.findViewById(R.id.ckbContentSelect);
+            ytuContent = itemView.findViewById(R.id.ytuVwContent);
+            rtbLikePoint = itemView.findViewById(R.id.rtbLikePoint);
         }
     }
 
@@ -72,7 +77,13 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
             }
         };
 
-        holder.ytuContent.play(null, onInitializedListener);
+        try {
+            holder.ytuContent.play(mData.getJSONObject(position).getString("m_yctnt_url"), onInitializedListener);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override

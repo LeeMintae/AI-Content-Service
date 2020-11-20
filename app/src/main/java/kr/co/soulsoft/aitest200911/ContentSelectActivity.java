@@ -57,11 +57,14 @@ public class ContentSelectActivity extends AppCompatActivity {
                 }
                 try {
                     resultData = new JSONArray(result[0]);
+                    contentListAdapter = new ContentListAdapter(resultData);
                     Log.d("<<<<<<<<< 콘텐츠 리스트", resultData.length()+"");
+
                     RecyclerView recyclerView = findViewById(R.id.rcyclrContentList);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
                     recyclerView.setAdapter(contentListAdapter);
-                    contentListAdapter = new ContentListAdapter(resultData);
+
+
                     for (int i=0; i < resultData.length(); i++) {
 
                     }
@@ -70,24 +73,6 @@ public class ContentSelectActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-//                try {
-//                    selectedData = new JSONArray(result[0]);
-//                    subHasIds = new ArrayList<>();
-//                    for (int i = 0; i < selectedData.length(); i++)
-//                        if (selectedData.getJSONObject(i).getInt("m_survey_parent") > 0)
-//                            subHasIds.add(selectedData.getJSONObject(i).getString("m_survey_id"));
-//                    // 하위 항목 체크
-//                    if (subHasIds.size() > 0) {
-//                        for (int index = 0; index < subHasIds.size(); index++)
-//                            new DatabaseRequest(getBaseContext(), findSurveySubResult).execute("GET_SUB", subHasIds.get(index));
-//                    } else {
-//                        setPagerAdapter();
-//                        progressDialog.dismiss();
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-
             }
         };
     }

@@ -168,8 +168,8 @@ public class ParticipantActivity extends AppCompatActivity {
                             System.exit(0);
                         }
                     }).show();
-//            Toast.makeText(getBaseContext(), "아직 23일 전", Toast.LENGTH_SHORT).show();
-            return false;
+            return true;
+//            return false;
         } else {
             return true;
         }

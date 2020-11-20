@@ -7,7 +7,7 @@
     android:gravity="center">
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/ckbContentSelect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.9"
@@ -20,7 +20,7 @@
         android:orientation="vertical">
 
         <kr.co.prnd.YouTubePlayerView
-            android:id="@+id/videoView3"
+            android:id="@+id/ytuVwContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.2" />
@@ -33,7 +33,7 @@
             android:orientation="horizontal">
 
             <RatingBar
-                android:id="@+id/ratingBar3"
+                android:id="@+id/rtbLikePoint"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

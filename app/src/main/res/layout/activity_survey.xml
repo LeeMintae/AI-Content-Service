@@ -33,7 +33,8 @@
         android:id="@+id/rGrpAnswer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.2">
+        android:layout_weight="0.2"
+        android:visibility="invisible">
 
         <RadioButton
             android:id="@+id/rBtnAnswer1"

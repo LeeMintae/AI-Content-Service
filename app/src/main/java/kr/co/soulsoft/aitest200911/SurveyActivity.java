@@ -6,6 +6,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -57,7 +58,7 @@ public class SurveyActivity extends FragmentActivity {
     private Bundle bundle;
     private String message;
 
-    private Boolean pageHolding = true;
+    private Boolean pageHolding = false;
 
     private String startTime;
     private ArrayList<String> ANSWER_RECORDS;
@@ -88,6 +89,19 @@ public class SurveyActivity extends FragmentActivity {
             findViewById(btnAnswerIDs.get(i)).setOnClickListener(answerClickListener);
         }
 //        ((RadioGroup)findViewById(R.id.rGrpAnswer)).setOnCheckedChangeListener(checkedChangeListener);
+
+        findViewById(R.id.btnNextSurvey).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pageChanger("NEXT");
+            }
+        });
+        findViewById(R.id.btnPrevSurvey).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pageChanger("PREV");
+            }
+        });
     }
     private void setFullScreen() {
         View decor = this.getWindow().getDecorView();
@@ -300,7 +314,8 @@ public class SurveyActivity extends FragmentActivity {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 if (position == pager.getChildCount()) {
                     // Youtube Content Survey Start
-
+                    Intent i = new Intent(SurveyActivity.this, ContentSelectActivity.class);
+                    startActivity(i);
 //                    sendReply();
                 }
             }
@@ -313,7 +328,7 @@ public class SurveyActivity extends FragmentActivity {
                 String indexText = currentPosition >= 10 ? (currentPosition)+"":"0"+(currentPosition);
                 indexText = indexText+"/"+((pager.getChildCount()-1)+"");
                 ((TextView)findViewById(R.id.tvwPageNumber)).setText(indexText);
-
+                findViewById(R.id.rGrpAnswer).setVisibility(View.VISIBLE);
                 if (position == 0) {
                     for (int index = 0; index < 6; index++) {
                         ((RadioButton) findViewById(btnAnswerIDs.get(index))).setText("");
@@ -322,7 +337,7 @@ public class SurveyActivity extends FragmentActivity {
                         value = false;
                     }
                     ((RadioGroup)findViewById(R.id.rGrpAnswer)).clearCheck();
-
+                    findViewById(R.id.rGrpAnswer).setVisibility(View.INVISIBLE);
 
 //                    customTTS.speakMessage(getString(R.string.msg_survey_prepare));
                     return;
@@ -442,6 +457,51 @@ public class SurveyActivity extends FragmentActivity {
                 }
             }
             index++;
+        }
+    }
+
+    private void pageChanger(String direct) {
+        int temp = pager.getCurrentItem();
+        int temp2 = pager.getChildCount();
+
+        Log.d("현재 페이지 상태", temp+"/"+temp2);
+        switch (direct) {
+            case "NEXT":
+                if (currentPosition != 0 && pageHolding ==  true) {
+                    Toast.makeText(getBaseContext(), getString(R.string.msg_survey_choiceyet), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (pager.getCurrentItem() != (pager.getChildCount()-1)) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pager.setCurrentItem(pager.getCurrentItem()+1, true);
+                        }
+                    });
+                } else {
+                    Intent i = new Intent(SurveyActivity.this, ContentSelectActivity.class);
+                    startActivity(i);
+                }
+                break;
+            case "PREV":
+                if (pager.getCurrentItem() != 0) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            pager.setCurrentItem(pager.getCurrentItem()-1, true);
+                        }
+                    });
+                } else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getBaseContext(), "", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                break;
+            default:
+                break;
         }
     }
 
