@@ -78,6 +78,7 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
         };
 
         try {
+            Log.d("<<<<<<<<<<<<콘텐츠 URL", mData.getJSONObject(position).getString("m_yctnt_url"));
             holder.ytuContent.play(mData.getJSONObject(position).getString("m_yctnt_url"), onInitializedListener);
         } catch (JSONException e) {
             e.printStackTrace();
