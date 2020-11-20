@@ -55,6 +55,7 @@ public class DatabaseRequest extends AsyncTask<String, String, String> {
                 parameters = makeParameter(params[0], params[1], params[2], params[3]);
                 break;
             case "GET_ALL_CATEGORY":
+            case "GET_CONTENT": // Get YouTube Content List
                 parameters = USE+params[0];
                 break;
             case "GET_SURVEY":
@@ -122,6 +123,7 @@ public class DatabaseRequest extends AsyncTask<String, String, String> {
             case "GET_SURVEY":
             case "GET_SUB":
             case "REPLY":
+            case "GET_CONTENT":
                 executeListener.onResult(response);
                 break;
             default:

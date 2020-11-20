@@ -9,6 +9,8 @@
     <string name="msg_survey_absent">설문 내용이 없습니다</string>
     <string name="msg_survey_popup">설문 준비 중입니다</string>
     <string name="msg_survey_dday_alarm">설문 시작일 (23)일 되면 활성화됩니다</string>
+    <string name="msg_dialog_content_title">콘텐츠 리스트 로딩</string>
+    <string name="msg_dialog_content_loading">콘텐츠 리스트를 불러오는 중입니다</string>
 
 
     <!--    UI Message-->
