@@ -168,8 +168,8 @@ public class ParticipantActivity extends AppCompatActivity {
                             System.exit(0);
                         }
                     }).show();
-            return true;
-//            return false;
+//            return true;
+            return false;
         } else {
             return true;
         }

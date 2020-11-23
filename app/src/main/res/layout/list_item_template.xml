@@ -19,11 +19,12 @@
         android:layout_weight="0.1"
         android:orientation="vertical">
 
-        <kr.co.prnd.YouTubePlayerView
-            android:id="@+id/ytuVwContent"
+        <ImageView
+            android:id="@+id/imgVwYoutubeThumb"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.2" />
+            android:layout_weight="0.2"
+            tools:srcCompat="@tools:sample/avatars" />
 
         <LinearLayout
             android:layout_width="match_parent"

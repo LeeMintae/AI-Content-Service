@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="20dp"
+    android:background="#EFEFEF"
     android:gravity="center_horizontal"
     android:orientation="vertical"
+    android:padding="20dp"
     tools:context=".SurveyActivity">
 
     <TextView
@@ -14,7 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.3"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textColor="@android:color/background_dark" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,43 +36,55 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.2"
-        android:visibility="invisible">
+        android:visibility="visible">
 
         <RadioButton
             android:id="@+id/rBtnAnswer1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rbtn_empty" />
+            android:text="@string/rbtn_empty"
+            android:textAppearance="@style/TextAnswer"
+            android:textColor="#000000" />
 
         <RadioButton
             android:id="@+id/rBtnAnswer2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rbtn_empty" />
+            android:text="@string/rbtn_empty"
+            android:textAppearance="@style/TextAnswer"
+            android:textColor="#000000" />
 
         <RadioButton
             android:id="@+id/rBtnAnswer3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rbtn_empty" />
+            android:text="@string/rbtn_empty"
+            android:textAppearance="@style/TextAnswer"
+            android:textColor="#000000" />
 
         <RadioButton
             android:id="@+id/rBtnAnswer4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rbtn_empty" />
+            android:text="@string/rbtn_empty"
+            android:textAppearance="@style/TextAnswer"
+            android:textColor="#000000" />
 
         <RadioButton
             android:id="@+id/rBtnAnswer5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rbtn_empty" />
+            android:text="@string/rbtn_empty"
+            android:textAppearance="@style/TextAnswer"
+            android:textColor="#000000" />
 
         <RadioButton
             android:id="@+id/rBtnAnswer6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/rbtn_empty" />
+            android:text="@string/rbtn_empty"
+            android:textAppearance="@style/TextAnswer"
+            android:textColor="#000000" />
     </RadioGroup>
 
     <LinearLayout

@@ -29,6 +29,7 @@ import java.util.List;
 import kr.co.soulsoft.aitest200911.adapter.SurveyAdapter;
 import kr.co.soulsoft.aitest200911.data.DatabaseRequest;
 import kr.co.soulsoft.aitest200911.data.Example;
+import kr.co.soulsoft.aitest200911.utils.DialogMaker;
 
 public class SurveyActivity extends FragmentActivity {
 
@@ -556,5 +557,11 @@ public class SurveyActivity extends FragmentActivity {
         Date date = new Date(now);
         @SuppressLint("SimpleDateFormat") SimpleDateFormat clickFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return clickFormat.format(date);
+    }
+
+    @Override
+    public void onBackPressed() {
+        DialogMaker dialogMaker = new DialogMaker(SurveyActivity.this, DialogMaker.EXIT_CONFIRM, this);
+        dialogMaker.show();
     }
 }
