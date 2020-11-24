@@ -63,6 +63,8 @@ public class SurveyActivity extends FragmentActivity {
 
     private String startTime;
     private ArrayList<String> ANSWER_RECORDS;
+    public static final String SURVEY_ANSWER = "SURVEY_ANSWER";
+    public static final String CATEGORY_ID = "CATEGORY_ID";
 
 
     private boolean[] alreadyChecked = {false, false};
@@ -461,6 +463,10 @@ public class SurveyActivity extends FragmentActivity {
         }
     }
 
+    /**
+     *
+     * @param direct 페이지 전환 방향
+     */
     private void pageChanger(String direct) {
         int temp = pager.getCurrentItem();
         int temp2 = pager.getChildCount();
@@ -481,6 +487,19 @@ public class SurveyActivity extends FragmentActivity {
                     });
                 } else {
                     Intent i = new Intent(SurveyActivity.this, ContentSelectActivity.class);
+                    i.putExtra(ParticipantActivity.PARTICIPANT_INFO, participantInfo);
+                    int index = 0;
+                    StringBuilder recordValue = new StringBuilder();
+                    for (String value : ANSWER_RECORDS) {
+                        if (index!=0) {
+                            recordValue.append(",");
+                        }
+                        recordValue.append(value);
+                        index++;
+                    }
+                    i.putExtra(SURVEY_ANSWER, recordValue.toString());
+                    i.putExtra(CATEGORY_ID, categoryID);
+
                     startActivity(i);
                 }
                 break;
@@ -496,7 +515,7 @@ public class SurveyActivity extends FragmentActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getBaseContext(), "", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(), getString(R.string.msg_survey_firstpage), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

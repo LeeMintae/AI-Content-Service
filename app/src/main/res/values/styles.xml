@@ -33,6 +33,10 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">#000000</item>
     </style>
+    <style name="TextContentTitle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#1B1919</item>
+    </style>
 
     <style name="DialogExitMargin">
         <item name="android:layout_marginStart">20dp</item>

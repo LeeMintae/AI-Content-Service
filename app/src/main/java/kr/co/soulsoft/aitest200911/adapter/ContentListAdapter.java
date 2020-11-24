@@ -1,16 +1,25 @@
 package kr.co.soulsoft.aitest200911.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fasterxml.jackson.core.JsonFactory;
@@ -25,6 +34,7 @@ import com.google.api.services.youtube.model.ResourceId;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 import com.google.api.services.youtube.model.Thumbnail;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +45,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
@@ -43,17 +54,33 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
 import kr.co.soulsoft.aitest200911.R;
+import kr.co.soulsoft.aitest200911.data.ImageRequest;
 
 public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.ViewHolder> {
 
+    private Context context;
     private final JSONArray mData;
     private final String YOUTUBE_API_KEY = "AIzaSyDEphcTVCTcqd4bn3fPF6QdPoRa8MZcfCA";
+
+    private final static String YOUTUBE_IMG_URL_PREFIX = "https://img.youtube.com/vi/";
+    private final static String YOUTUBE_IMG_URL_SUFFIX = "/mqdefault.jpg";
+
+    public interface ContentSelectListener {
+        void onResult(JSONObject selectedContent, float ratingValue);
+    }
+    public interface RatingChangeListener {
+        void onResult(String id, float ratingValue);
+    }
+
+    private final ContentSelectListener contentSelectListener;
+    private final RatingChangeListener ratingChangeListener;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         CheckBox ckbContentSelect;
 //        YouTubePlayerView ytuContent;
         ImageView imgVwYoutubeThumb;
         RatingBar rtbLikePoint;
+        TextView tVwContentTitle;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -62,6 +89,8 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
 //            ytuContent = itemView.findViewById(R.id.ytuVwContent);
             imgVwYoutubeThumb = itemView.findViewById(R.id.imgVwYoutubeThumb);
             rtbLikePoint = itemView.findViewById(R.id.rtbLikePoint);
+            tVwContentTitle = itemView.findViewById(R.id.tVwContentTitle);
+
         }
     }
 
@@ -69,22 +98,31 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
      * Modify Req
      * @param arrayList YouTube Content List data
      */
-    public ContentListAdapter(JSONArray arrayList) {
+    public ContentListAdapter(JSONArray arrayList, ContentSelectListener contentSelectListener, RatingChangeListener ratingChangeListener) {
         mData = arrayList;
+        this.contentSelectListener = contentSelectListener;
+        this.ratingChangeListener = ratingChangeListener;
     }
 
     @NonNull
     @Override
     public ContentListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
+        this.context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View view = inflater.inflate(R.layout.list_item_template, parent, false);
+
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)view.findViewById(R.id.imgVwYoutubeThumb).getLayoutParams();
+        layoutParams.height = (int)(displayMetrics.heightPixels*0.2);
+        layoutParams.width = (int)(displayMetrics.widthPixels*0.7);
+        view.findViewById(R.id.imgVwYoutubeThumb).setLayoutParams(layoutParams);
+
         return new ContentListAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ContentListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ContentListAdapter.ViewHolder holder, int position) {
 //        YouTubePlayerView.OnInitializedListener onInitializedListener = new YouTubePlayerView.OnInitializedListener() {
 //            @Override
 //            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
@@ -104,35 +142,80 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
 //        } catch (JSONException e) {
 //            e.printStackTrace();
 //        }
-
         try {
             String[] urlSource = mData.getJSONObject(position).getString("m_yctnt_url").split("v=");
+
 //            new searchTask().execute(urlSource[1]);
-            new YoutubeAsyncTask().execute(urlSource[1]);
+//            new YoutubeAsyncTask().execute(urlSource[1]);
+
+            String imageURL = YOUTUBE_IMG_URL_PREFIX+urlSource[1]+YOUTUBE_IMG_URL_SUFFIX;
+            ImageLoadTask imageLoadTask = new ImageLoadTask(holder);
+            imageLoadTask.execute(imageURL);
+
+
+            holder.tVwContentTitle.setText(mData.getJSONObject(position).getString("m_yctnt_title"));
+
+            holder.ckbContentSelect.setTag(mData.getJSONObject(position));
+
+            View.OnClickListener onClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(((CheckBox)v).isChecked()) {
+                        holder.rtbLikePoint.setIsIndicator(false);
+                        holder.rtbLikePoint.setRating(3);
+                        contentSelectListener.onResult((JSONObject)v.getTag(), holder.rtbLikePoint.getRating());
+                    }else {
+                        holder.rtbLikePoint.setRating(0);
+                        holder.rtbLikePoint.setIsIndicator(true);
+                    }
+                }
+            };
+            holder.ckbContentSelect.setOnClickListener(onClickListener);
+
+            holder.rtbLikePoint.setTag(mData.getJSONObject(position).getString("m_yctnt_idx"));
+            RatingBar.OnRatingBarChangeListener onRatingBarChangeListener = new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                    Log.d("<<<<<<<<<<<< rtb ID ", ratingBar.getTag().toString());
+                    Log.d("<<<<<<<<<<<<rating", rating+"");
+                    ratingChangeListener.onResult(ratingBar.getTag().toString(), rating);
+                }
+            };
+            holder.rtbLikePoint.setOnRatingBarChangeListener(onRatingBarChangeListener);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(((CheckBox)v).isChecked()) {
-                    Log.d("Content Select", v.getTag().toString());
-                }
-            }
-        };
-        holder.ckbContentSelect.setOnClickListener(onClickListener);
-
-
-        RatingBar.OnRatingBarChangeListener onRatingBarChangeListener = new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-
-            }
-        };
-
-        holder.rtbLikePoint.setOnRatingBarChangeListener(onRatingBarChangeListener);
     }
+    private static class ImageLoadTask extends AsyncTask<String, Void, Bitmap> {
+        ContentListAdapter.ViewHolder holder;
+
+        public ImageLoadTask(ContentListAdapter.ViewHolder holder) {
+            this.holder = holder;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+            Bitmap bmp = null;
+            try {
+                String img_url = strings[0]; //url of the image
+                URL url = new URL(img_url);
+                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                System.err.println("There was an IO error: " + e.getCause() + " : " + e.getMessage());
+            }
+            return bmp;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            holder.imgVwYoutubeThumb.setImageBitmap(bitmap);
+        }
+    }
+
+
 
     private class YoutubeAsyncTask extends AsyncTask<String, Void, Void> {
 

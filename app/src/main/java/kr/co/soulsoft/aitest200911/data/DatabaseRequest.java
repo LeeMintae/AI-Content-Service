@@ -19,7 +19,7 @@ public class DatabaseRequest extends AsyncTask<String, String, String> {
     //region Value&Interface
     private static String SERVER_IP;
 //    private final static String PHP_URL = "/soul/res/php/request_handler.php";
-    private final static String PHP_URL = "/mcips/res/php/request_handler.php";
+    private final static String PHP_URL = "/sscr/res/php/request_handler.php";
 
     private final String ID = "PARTICIPANT_ID=";
 

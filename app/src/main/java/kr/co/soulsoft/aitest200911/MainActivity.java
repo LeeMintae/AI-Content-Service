@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,6 +20,7 @@ public class MainActivity extends FragmentActivity {
     private ArrayList<String> participantInfo;
     private JSONArray dataSource;
     private String categoryID, categoryName;
+    private int click = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,13 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
 
         SetWidget();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        findViewById(R.id.cnstLayoutMain).setBackground(getDrawable(R.drawable.survey_bg1));
+        ((Button)findViewById(R.id.btnSurveyStart)).setText(getString(R.string.btn_next_description));
     }
 
     private void SetWidget() {
@@ -65,14 +74,22 @@ public class MainActivity extends FragmentActivity {
     }
 
 
-    private View.OnClickListener startSurvey;
+    private final View.OnClickListener startSurvey;
     {
         startSurvey = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, ParticipantActivity.class);
+                if (click == 0) {
+                    findViewById(R.id.cnstLayoutMain).setBackground(getDrawable(R.drawable.survey_bg2));
+                    ((Button)v).setText(getString(R.string.btn_start));
+                    click++;
+                } else {
+                    Intent i = new Intent(MainActivity.this, ParticipantActivity.class);
 //                i.putExtra(LoginActivity.PARTICIPANT_INFO, participantInfo);
-                startActivity(i);
+                    startActivity(i);
+
+                    click = 0;
+                }
             }
         };
     }

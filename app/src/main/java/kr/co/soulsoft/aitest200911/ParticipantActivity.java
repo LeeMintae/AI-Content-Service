@@ -25,6 +25,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import kr.co.soulsoft.aitest200911.utils.MakeID;
+
 public class ParticipantActivity extends AppCompatActivity {
 
     private ConnectivityManager connectivityManager;
@@ -132,7 +134,7 @@ public class ParticipantActivity extends AppCompatActivity {
                     return;
                 }
                 ArrayList<String> userInfo = new ArrayList<>();
-                userInfo.add("id");
+                userInfo.add(new MakeID().getID());
                 userInfo.add(participantGender+"");
                 userInfo.add(((EditText)findViewById(R.id.eTxtAge)).getText().toString());
                 userInfo.add(((EditText)findViewById(R.id.eTxtHeight)).getText().toString());
