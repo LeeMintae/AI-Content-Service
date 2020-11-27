@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,12 +16,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.fasterxml.jackson.core.JsonFactory;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
@@ -34,7 +29,6 @@ import com.google.api.services.youtube.model.ResourceId;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 import com.google.api.services.youtube.model.Thumbnail;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,14 +41,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
 import kr.co.soulsoft.aitest200911.R;
-import kr.co.soulsoft.aitest200911.data.ImageRequest;
 
 public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.ViewHolder> {
 
@@ -66,7 +59,7 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
     private final static String YOUTUBE_IMG_URL_SUFFIX = "/mqdefault.jpg";
 
     public interface ContentSelectListener {
-        void onResult(JSONObject selectedContent, float ratingValue);
+        void onResult(boolean isChecked, JSONObject selectedContent, float ratingValue);
     }
     public interface RatingChangeListener {
         void onResult(String id, float ratingValue);
@@ -74,6 +67,9 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
 
     private final ContentSelectListener contentSelectListener;
     private final RatingChangeListener ratingChangeListener;
+
+    private ArrayList<Boolean> CHECKBOX_LOG;
+    private ArrayList<Float> RATINGBAR_LOG;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         CheckBox ckbContentSelect;
@@ -102,6 +98,12 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
         mData = arrayList;
         this.contentSelectListener = contentSelectListener;
         this.ratingChangeListener = ratingChangeListener;
+        CHECKBOX_LOG = new ArrayList<>();
+        RATINGBAR_LOG = new ArrayList<>();
+        for (int i=0; i < mData.length(); i++) {
+            CHECKBOX_LOG.add(false);
+            RATINGBAR_LOG.add(0f);
+        }
     }
 
     @NonNull
@@ -122,7 +124,7 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ContentListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ContentListAdapter.ViewHolder holder, final int position) {
 //        YouTubePlayerView.OnInitializedListener onInitializedListener = new YouTubePlayerView.OnInitializedListener() {
 //            @Override
 //            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
@@ -155,6 +157,8 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
 
             holder.tVwContentTitle.setText(mData.getJSONObject(position).getString("m_yctnt_title"));
 
+            holder.ckbContentSelect.setOnClickListener(null);
+            holder.ckbContentSelect.setChecked(CHECKBOX_LOG.get(position));
             holder.ckbContentSelect.setTag(mData.getJSONObject(position));
 
             View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -163,14 +167,28 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
                     if(((CheckBox)v).isChecked()) {
                         holder.rtbLikePoint.setIsIndicator(false);
                         holder.rtbLikePoint.setRating(3);
-                        contentSelectListener.onResult((JSONObject)v.getTag(), holder.rtbLikePoint.getRating());
+                        contentSelectListener.onResult(((CheckBox)v).isChecked(), (JSONObject)v.getTag(), holder.rtbLikePoint.getRating());
+                        CHECKBOX_LOG.set(position, ((CheckBox)v).isChecked());
+                        RATINGBAR_LOG.set(position, holder.rtbLikePoint.getRating());
                     }else {
                         holder.rtbLikePoint.setRating(0);
                         holder.rtbLikePoint.setIsIndicator(true);
+                        contentSelectListener.onResult(((CheckBox)v).isChecked(), (JSONObject)v.getTag(), holder.rtbLikePoint.getRating());
+                        CHECKBOX_LOG.set(position, ((CheckBox)v).isChecked());
+                        RATINGBAR_LOG.set(position, 0f);
                     }
                 }
             };
             holder.ckbContentSelect.setOnClickListener(onClickListener);
+
+            holder.rtbLikePoint.setOnRatingBarChangeListener(null);
+            holder.rtbLikePoint.setRating(RATINGBAR_LOG.get(position));
+            if (holder.ckbContentSelect.isChecked()) {
+                holder.rtbLikePoint.setIsIndicator(false);
+
+            } else {
+                holder.rtbLikePoint.setIsIndicator(true);
+            }
 
             holder.rtbLikePoint.setTag(mData.getJSONObject(position).getString("m_yctnt_idx"));
             RatingBar.OnRatingBarChangeListener onRatingBarChangeListener = new RatingBar.OnRatingBarChangeListener() {
@@ -179,6 +197,7 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
                     Log.d("<<<<<<<<<<<< rtb ID ", ratingBar.getTag().toString());
                     Log.d("<<<<<<<<<<<<rating", rating+"");
                     ratingChangeListener.onResult(ratingBar.getTag().toString(), rating);
+                    RATINGBAR_LOG.set(position, holder.rtbLikePoint.getRating());
                 }
             };
             holder.rtbLikePoint.setOnRatingBarChangeListener(onRatingBarChangeListener);
@@ -214,8 +233,6 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
             holder.imgVwYoutubeThumb.setImageBitmap(bitmap);
         }
     }
-
-
 
     private class YoutubeAsyncTask extends AsyncTask<String, Void, Void> {
 

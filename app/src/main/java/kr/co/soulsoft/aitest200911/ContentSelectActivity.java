@@ -1,9 +1,5 @@
 package kr.co.soulsoft.aitest200911;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,7 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.gson.JsonObject;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,13 +22,13 @@ import kr.co.soulsoft.aitest200911.data.DatabaseRequest;
 
 public class ContentSelectActivity extends AppCompatActivity {
 
+    // region Value Definition
     private JSONArray resultData;
     private ArrayList<JSONArray> contentDataArray;
     private ProgressDialog progressDialog;
     private ContentListAdapter contentListAdapter;
     private ArrayList<String> SELECTED_CONTENTS;
-
-
+    // endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +57,7 @@ public class ContentSelectActivity extends AppCompatActivity {
     private void getContentList(){
         progressDialog = ProgressDialog.show(ContentSelectActivity.this, getString(R.string.msg_dialog_content_title), getString(R.string.msg_dialog_content_loading));
         new DatabaseRequest(getBaseContext(), findContentResult).execute("GET_CONTENT");
+        SELECTED_CONTENTS = new ArrayList<>();
     }
 
     private final DatabaseRequest.ExecuteListener findContentResult;
@@ -80,11 +79,6 @@ public class ContentSelectActivity extends AppCompatActivity {
                     recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
                     recyclerView.setAdapter(contentListAdapter);
 
-
-                    for (int i=0; i < resultData.length(); i++) {
-
-                    }
-
                     progressDialog.dismiss();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -97,8 +91,9 @@ public class ContentSelectActivity extends AppCompatActivity {
     {
         contentSelectListener = new ContentListAdapter.ContentSelectListener() {
             @Override
-            public void onResult(JSONObject selectedContent, float ratingValue) {
+            public void onResult(boolean isChecked, JSONObject selectedContent, float ratingValue) {
                 Log.d("((((((((((((((( 확인", selectedContent.toString());
+                selectedContentHandler(isChecked, selectedContent, ratingValue);
             }
         };
     }
@@ -108,9 +103,47 @@ public class ContentSelectActivity extends AppCompatActivity {
         ratingChangeListener = new ContentListAdapter.RatingChangeListener() {
             @Override
             public void onResult(String id, float ratingValue) {
-
+                ratingChangeHandler(id, ratingValue);
             }
         };
+    }
+
+    private void selectedContentHandler(boolean isChecked, JSONObject selectedContent, float ratingValue) {
+        int index = 0;
+        try {
+            String id = selectedContent.getString("m_yctnt_idx");
+            if (isChecked) {
+                for (String content : SELECTED_CONTENTS) {
+                    if (content.contains(id)) {
+                        SELECTED_CONTENTS.set(index, id+"/"+ratingValue);
+                        return;
+                    }
+                    index++;
+                }
+                SELECTED_CONTENTS.add(id+"/"+ratingValue);
+            } else {
+                for (String content : SELECTED_CONTENTS) {
+                    if (content.contains(id)){
+                        SELECTED_CONTENTS.remove(index);
+                        return;
+                    }
+                    index++;
+                }
+            }
+            Log.d("<<<<<<<<<<<<< Selected Content Count ", SELECTED_CONTENTS.size()+"");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    private void ratingChangeHandler(String id, float ratingValue) {
+        int index = 0;
+        for (String content : SELECTED_CONTENTS) {
+            if (content.contains(id)) {
+                SELECTED_CONTENTS.set(index, id+"/"+ratingValue);
+                return;
+            }
+            index++;
+        }
     }
 
     private final View.OnClickListener surveyFinishClick;
@@ -118,7 +151,11 @@ public class ContentSelectActivity extends AppCompatActivity {
         surveyFinishClick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (SELECTED_CONTENTS.size() < 5) {
+                    Toast.makeText(getBaseContext(), getString(R.string.msg_content_limit), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Log.d("<<<<<<<<<<<<< 선택 결과", SELECTED_CONTENTS.toString());
             }
         };
 
