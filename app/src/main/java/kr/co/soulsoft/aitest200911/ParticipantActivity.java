@@ -134,7 +134,7 @@ public class ParticipantActivity extends AppCompatActivity {
                     return;
                 }
                 ArrayList<String> userInfo = new ArrayList<>();
-                userInfo.add(new MakeID().getID());
+                userInfo.add("id");
                 userInfo.add(participantGender+"");
                 userInfo.add(((EditText)findViewById(R.id.eTxtAge)).getText().toString());
                 userInfo.add(((EditText)findViewById(R.id.eTxtHeight)).getText().toString());

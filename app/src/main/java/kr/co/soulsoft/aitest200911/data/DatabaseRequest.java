@@ -20,19 +20,19 @@ public class DatabaseRequest extends AsyncTask<String, String, String> {
     private static String SERVER_IP;
 //    private final static String PHP_URL = "/soul/res/php/request_handler.php";
     private final static String PHP_URL = "/sscr/res/php/request_handler.php";
-
     private final String ID = "PARTICIPANT_ID=";
-
     private final String USE = "USE=";
-
     private String dbUse;
+
+    public final static String INSERT = "INSERT";
+    public final static String REPLY = "REPLY";
 
     public interface ExecuteListener {
         void onResult(String... result);
     }
 
     private final ExecuteListener executeListener;
-    private String currentUserID;
+    private static String currentUserID;
     //endregion
 
     public DatabaseRequest(Context context, ExecuteListener executeListener) {
@@ -49,10 +49,15 @@ public class DatabaseRequest extends AsyncTask<String, String, String> {
         String CATEGORY_ID = "CATEGORY_ID=";
         String SURVEY_ID = "SURVEY_ID=";
         String REPLIES = "REPLIES=";
+        String CONTENTS = "CONTENTS=";
         switch (dbUse) {
+//            case "INSERT":
+//                Log.d("설문 참여자 정보", params[1] + params[2] + params[3]);
+//                parameters = makeParameter(params[0], params[1], params[2], params[3]);
+//                break;
             case "INSERT":
-                Log.d("설문 참여자 정보", params[1] + params[2] + params[3]);
-                parameters = makeParameter(params[0], params[1], params[2], params[3]);
+                parameters = makeParameter(params);
+                Log.d("[[[[[[파라메터 확인", parameters);
                 break;
             case "GET_ALL_CATEGORY":
             case "GET_CONTENT": // Get YouTube Content List
@@ -116,7 +121,8 @@ public class DatabaseRequest extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String response) {
         switch (dbUse) {
-            case "INSERT":
+            case INSERT:
+                Log.d("<<<<<<<<<<<<<생성 ID", currentUserID);
                 executeListener.onResult(currentUserID, response);
                 break;
             case "GET_ALL_CATEGORY":
@@ -134,13 +140,31 @@ public class DatabaseRequest extends AsyncTask<String, String, String> {
 
     private String makeParameter(String... params) {
         currentUserID = new MakeID().getID();
-        String NAME = "PARTICIPANT_NAME=";
         String AGE = "PARTICIPANT_AGE=";
         String GENDER = "PARTICIPANT_GENDER=";
+        String HEIGHT = "PARTICIPANT_HEIGHT=";
+        String WEIGHT = "PARTICIPANT_WEIGHT=";
+        String HLEVEL = "PARTICIPANT_HLEVEL=";
+        String EMAIL = "PARTICIPANT_EMAIL=";
         return USE+params[0]+"&"+
                 ID+currentUserID+"&"+
-                NAME +params[1]+"&"+
+                GENDER +params[1]+"&"+
                 AGE +params[2]+"&"+
-                GENDER +params[3];
+                HEIGHT +params[3]+"&"+
+                WEIGHT +params[4]+"&"+
+                HLEVEL +params[5]+"&"+
+                EMAIL +params[6];
     }
+
+//    private String makeParameter(String... params) {
+//        currentUserID = new MakeID().getID();
+//        String NAME = "PARTICIPANT_NAME=";
+//        String AGE = "PARTICIPANT_AGE=";
+//        String GENDER = "PARTICIPANT_GENDER=";
+//        return USE+params[0]+"&"+
+//                ID+currentUserID+"&"+
+//                NAME +params[1]+"&"+
+//                AGE +params[2]+"&"+
+//                GENDER +params[3];
+//    }
 }

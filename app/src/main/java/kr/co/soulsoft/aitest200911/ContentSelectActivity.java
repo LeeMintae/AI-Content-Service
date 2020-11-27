@@ -156,8 +156,29 @@ public class ContentSelectActivity extends AppCompatActivity {
                     return;
                 }
                 Log.d("<<<<<<<<<<<<< 선택 결과", SELECTED_CONTENTS.toString());
+                ArrayList<String> participantInfo = getIntent().getStringArrayListExtra(ParticipantActivity.PARTICIPANT_INFO);
+                new DatabaseRequest(getBaseContext(), executeListener).execute(DatabaseRequest.INSERT,
+                        participantInfo.get(1),
+                        participantInfo.get(2),
+                        participantInfo.get(3),
+                        participantInfo.get(4),
+                        participantInfo.get(5),
+                        "testmail@soulsoft.co.kr");
             }
         };
+    }
 
+    private DatabaseRequest.ExecuteListener executeListener;
+    {
+        executeListener = new DatabaseRequest.ExecuteListener() {
+            @Override
+            public void onResult(String... result) {
+                if (result[1] == "INSERT_OK") {
+                    Log.d("<<<<<<<<<<<<<<<<<< 설문자 정보 생성", result[0] + " : "+result[1]);
+                } else {
+                    Log.d("<<<<<<<<<<<<<<<<<< 설문자 정보 생성", result[1]);
+                }
+            }
+        };
     }
 }
