@@ -32,6 +32,12 @@ public class ParticipantActivity extends AppCompatActivity {
     private ConnectivityManager connectivityManager;
 
     private int participantGender;
+    private static final int MAX_AGE = 80;
+    private static final int MIN_AGE = 14;
+    private static final int MAX_HEIGHT = 250;
+    private static final int MIN_HEIGHT = 100;
+    private static final int MAX_WEIGHT = 300;
+    private static final int MIN_WEIGHT = 30;
     private final int HEALTH_EVAL_THRESHOLD = 999;
     private int participantHealthEval = HEALTH_EVAL_THRESHOLD;
 
@@ -117,30 +123,58 @@ public class ParticipantActivity extends AppCompatActivity {
         clickMainSurvey = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (((EditText)findViewById(R.id.eTxtAge)).getText().toString().equals("")) {
+                String age = ((EditText)findViewById(R.id.eTxtAge)).getText().toString();
+                if (age.equals("")) {
                     Toast.makeText(getBaseContext(), getString(R.string.notify_input_age), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (((EditText)findViewById(R.id.eTxtHeight)).getText().toString().equals("")) {
+                int ageCount = Integer.parseInt(age);
+                if (ageCount > MAX_AGE || ageCount < MIN_AGE) {
+                    Toast.makeText(getBaseContext(), getString(R.string.notify_input_age_fault), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String height = ((EditText)findViewById(R.id.eTxtHeight)).getText().toString();
+                if (height.equals("")) {
                     Toast.makeText(getBaseContext(), getString(R.string.notify_input_height), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (((EditText)findViewById(R.id.eTxtWeight)).getText().toString().equals("")) {
+                int heightCount = Integer.parseInt(height);
+                if (heightCount > MAX_HEIGHT || heightCount < MIN_HEIGHT) {
+                    Toast.makeText(getBaseContext(), getString(R.string.notify_input_height_fault), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String weight = ((EditText)findViewById(R.id.eTxtWeight)).getText().toString();
+                if (weight.equals("")) {
                     Toast.makeText(getBaseContext(), getString(R.string.notify_input_weight), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                int weightCount = Integer.parseInt(weight);
+                if (weightCount > MAX_WEIGHT || weightCount < MIN_WEIGHT) {
+                    Toast.makeText(getBaseContext(), getString(R.string.notify_input_weight_fault), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (participantHealthEval > 4) {
                     Toast.makeText(getBaseContext(), getString(R.string.notify_input_healtheval), Toast.LENGTH_SHORT).show();
                     return;
                 }
+                String email = ((EditText)findViewById(R.id.eTxtEmail)).getText().toString();
+                if (email.equals("")) {
+                    Toast.makeText(getBaseContext(), getString(R.string.notify_input_email), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String[] emailCount = email.split("@");
+                if (emailCount.length < 2) {
+                    Toast.makeText(getBaseContext(), getString(R.string.notify_input_email_fault), Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 ArrayList<String> userInfo = new ArrayList<>();
                 userInfo.add("id");
                 userInfo.add(participantGender+"");
-                userInfo.add(((EditText)findViewById(R.id.eTxtAge)).getText().toString());
-                userInfo.add(((EditText)findViewById(R.id.eTxtHeight)).getText().toString());
-                userInfo.add(((EditText)findViewById(R.id.eTxtWeight)).getText().toString());
+                userInfo.add(age);
+                userInfo.add(height);
+                userInfo.add(weight);
                 userInfo.add(participantHealthEval+"");
-
+                userInfo.add(email);
                 Log.d("(((((((((((( 사용자 정보 )))))))", userInfo.toString());
 
                 Intent i = new Intent(ParticipantActivity.this, SurveyActivity.class);
@@ -170,7 +204,6 @@ public class ParticipantActivity extends AppCompatActivity {
                             System.exit(0);
                         }
                     }).show();
-//            return true;
             return false;
         } else {
             return true;

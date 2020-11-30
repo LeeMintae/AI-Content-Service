@@ -1,19 +1,32 @@
 package kr.co.soulsoft.aitest200911;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import kr.co.soulsoft.aitest200911.data.DatabaseRequest;
+import kr.co.soulsoft.aitest200911.utils.DialogMaker;
 
 public class MainActivity extends FragmentActivity {
 
@@ -21,6 +34,8 @@ public class MainActivity extends FragmentActivity {
     private JSONArray dataSource;
     private String categoryID, categoryName;
     private int click = 0;
+//    public static final String CATEGORY_ID = "cat_20201111141225";
+    public static final String CATEGORY_ID = "cat_20201130222122";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +56,21 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void SetWidget() {
+        checkRecord();
         setFullScreen();
-//        new DatabaseRequest(getBaseContext(), executeListener).execute("GET_ALL_CATEGORY");
+        checkPermission();
+
         findViewById(R.id.btnSurveyStart).setOnClickListener(startSurvey);
+    }
+
+    public void checkPermission(){
+        if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+
+        if(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        }
     }
 
     private void setFullScreen() {
@@ -92,5 +119,38 @@ public class MainActivity extends FragmentActivity {
                 }
             }
         };
+    }
+
+    private boolean checkRecord() {
+        File saveFile;
+
+        if(Build.VERSION.SDK_INT < 29)
+            saveFile = new File(Environment.getExternalStorageDirectory()+"/SSCR_SurveyCheck");
+        else
+            saveFile = this.getExternalFilesDir("/SSCR_SurveyCheck");
+
+        if(saveFile == null)
+            saveFile.mkdir();
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(saveFile+"/survey_check.txt"));
+            String temp = bufferedReader.readLine();
+            Log.d("<<<<<<<<<<<<<<<<< 정보 확인", temp);
+            JSONArray jsonArray = new JSONArray(temp);
+            JSONObject record = jsonArray.getJSONObject(0);
+            if (record.getString("category_id").equals(CATEGORY_ID)) {
+                DialogMaker dialogMaker = new DialogMaker(MainActivity.this, DialogMaker.SURVEY_FINISH, this);
+                dialogMaker.show();
+                return true;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException j) {
+            j.printStackTrace();
+            return false;
+        }
+        return false;
     }
 }

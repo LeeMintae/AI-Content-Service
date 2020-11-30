@@ -11,6 +11,7 @@
     <string name="alert_survey_exit">설문이 완료되지 않았습니다. \n지금 종료하시면 설문내용이 저장되지 않습니다.\n종료하시겠습니까?</string>
     <string name="btn_dialog_yes">예</string>
     <string name="btn_dialog_no">아니오</string>
+    <string name="btn_dialog_finish_confirm">확인</string>
 
     <!--    Service Message-->
     <string name="msg_survey_absent">설문 내용이 없습니다</string>
@@ -21,23 +22,29 @@
     <string name="msg_dialog_content_title">콘텐츠 리스트 로딩</string>
     <string name="msg_dialog_content_loading">콘텐츠 리스트를 불러오는 중입니다</string>
 
-
-
     <!--    UI Message-->
     <string name="msg_survey_purpose">&#160;&#160;본 설문은 여러가지 문항을 통해 사용자의 신체적 정신적인 건강유형을 파악하고, AI를 통해 사용자의 건강유형을 선별하여 적절한 서비스를 제공하기 위한 목적으로 진행됩니다. \n
     사용자의 개인정보는 분석을 위해서 개인의 동의하에 이용되며 3년 유지 후 추가의 개인정보 제공 동의가 없을경우 일괄 파기됩니다.</string>
     <string name="msg_survey_prepare">질문을 잘 읽고 해당하는 답변을 선택해 주세요</string>
     <string name="desc_default_image">기본 이미지</string>
     <string name="notify_input_age">나이를 입력하세요</string>
+    <string name="notify_input_age_fault">설문 가능한 나이(14세 이상 80세 이하)가 아닙니다</string>
     <string name="notify_input_height">신장을 입력하세요</string>
+    <string name="notify_input_height_fault">적절한 신장 수치를 입력하세요</string>
     <string name="notify_input_weight">체중을 입력하세요</string>
+    <string name="notify_input_weight_fault">적절한 체중 수치를 입력하세요</string>
+    <string name="notify_input_email">이메일을 입력하세요</string>
+    <string name="notify_input_email_fault">적절한 이메일을 입력하세요</string>
     <string name="notify_input_healtheval">건강 평가를 해주세요</string>
     <string name="notify_agree">개인 정보 수집 및 활용에 동의하지 않으면 설문을 진행하실 수 없습니다</string>
     <string name="txt_select_guide">선호하는 콘텐츠를 선택하고 별점을 주세요</string>
     <string name="msg_content_limit">최소 5개 이상의 콘텐츠를 선택하고 별점을 주세요</string>
+    <string name="title_survey_finish">설문 응답 종료</string>
+    <string name="msg_survey_finish">설문이 종료되었습니다.\n참여해 주셔서 감사합니다</string>
 
     <!--    Hint-->
     <string name="hint">입력하세요</string>
+    <string name="hint_email">email@mail.com</string>
 
     <string name="txt_bad">최악</string>
     <string name="txt_no_good">나쁨</string>
@@ -53,6 +60,7 @@
     <string name="txt_height">신장</string>
     <string name="txt_weight">체중</string>
     <string name="txt_health">평소 본인의 건강상태에 대한 평가는?</string>
+    <string name="txt_email">이메일</string>
     <string name="txt_individual_use">개인 정보 수집 및 활용 동의</string>
     <string name="txt_agree">동의합니다</string>
     <string name="txt_disagree">동의하지 않습니다</string>

@@ -3,6 +3,7 @@ package kr.co.soulsoft.aitest200911;
 import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -15,10 +16,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import kr.co.soulsoft.aitest200911.adapter.ContentListAdapter;
 import kr.co.soulsoft.aitest200911.data.DatabaseRequest;
+import kr.co.soulsoft.aitest200911.utils.DialogMaker;
+import kr.co.soulsoft.aitest200911.utils.MakeDate;
 
 public class ContentSelectActivity extends AppCompatActivity {
 
@@ -28,6 +39,8 @@ public class ContentSelectActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private ContentListAdapter contentListAdapter;
     private ArrayList<String> SELECTED_CONTENTS;
+
+    private String ParticipantID;
     // endregion
 
     @Override
@@ -102,8 +115,8 @@ public class ContentSelectActivity extends AppCompatActivity {
     {
         ratingChangeListener = new ContentListAdapter.RatingChangeListener() {
             @Override
-            public void onResult(String id, float ratingValue) {
-                ratingChangeHandler(id, ratingValue);
+            public void onResult(JSONObject targetContent, float ratingValue) {
+                ratingChangeHandler(targetContent, ratingValue);
             }
         };
     }
@@ -112,15 +125,16 @@ public class ContentSelectActivity extends AppCompatActivity {
         int index = 0;
         try {
             String id = selectedContent.getString("m_yctnt_idx");
+            String[] contentID = selectedContent.getString("m_yctnt_url").split("v=");
             if (isChecked) {
                 for (String content : SELECTED_CONTENTS) {
                     if (content.contains(id)) {
-                        SELECTED_CONTENTS.set(index, id+"/"+ratingValue);
+                        SELECTED_CONTENTS.set(index, "id:"+id+",content_id:"+contentID[1]+",rating:"+ratingValue);
                         return;
                     }
                     index++;
                 }
-                SELECTED_CONTENTS.add(id+"/"+ratingValue);
+                SELECTED_CONTENTS.add(index, "id:"+id+",content_id:"+contentID[1]+",rating:"+ratingValue);
             } else {
                 for (String content : SELECTED_CONTENTS) {
                     if (content.contains(id)){
@@ -135,15 +149,25 @@ public class ContentSelectActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    private void ratingChangeHandler(String id, float ratingValue) {
+    private void ratingChangeHandler(JSONObject targetContent, float ratingValue) {
         int index = 0;
-        for (String content : SELECTED_CONTENTS) {
-            if (content.contains(id)) {
-                SELECTED_CONTENTS.set(index, id+"/"+ratingValue);
-                return;
+        String id = null;
+        try {
+            id = targetContent.getString("m_yctnt_idx");
+            String[] contentID = targetContent.getString("m_yctnt_url").split("v=");
+
+            for (String content : SELECTED_CONTENTS) {
+                if (content.contains(id)) {
+                    SELECTED_CONTENTS.set(index, "id:"+id+",content_id:"+contentID[1]+",rating:"+ratingValue);
+                    return;
+                }
+                index++;
             }
-            index++;
+            Log.d("<<<<<<<<<<<<<<변화 확인", SELECTED_CONTENTS.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
     }
 
     private final View.OnClickListener surveyFinishClick;
@@ -163,7 +187,7 @@ public class ContentSelectActivity extends AppCompatActivity {
                         participantInfo.get(3),
                         participantInfo.get(4),
                         participantInfo.get(5),
-                        "testmail@soulsoft.co.kr");
+                        participantInfo.get(6));
             }
         };
     }
@@ -173,12 +197,71 @@ public class ContentSelectActivity extends AppCompatActivity {
         executeListener = new DatabaseRequest.ExecuteListener() {
             @Override
             public void onResult(String... result) {
-                if (result[1] == "INSERT_OK") {
-                    Log.d("<<<<<<<<<<<<<<<<<< 설문자 정보 생성", result[0] + " : "+result[1]);
+                if (result[1].equals("INSERT_OK")) {
+                    ParticipantID = result[0];
+                    Log.d("<<<<<<<<<<<<<<<<<< 설문자 정보 생성", result[0]);
+                    StringBuilder recordValue = new StringBuilder();
+                    int index=0;
+                    for (String value : SELECTED_CONTENTS) {
+                        if (index==0) {
+                            recordValue.append("[");
+                        } else {
+                            recordValue.append(",");
+                        }
+                        recordValue.append("{"+value+"}");
+                        if (index+1 == SELECTED_CONTENTS.size()) {
+                            recordValue.append("]");
+                        }
+                        index++;
+                    }
+                    Log.d("<<<<<<<<<<<< 선택 정보 ", recordValue.toString());
+                    new DatabaseRequest(getBaseContext(), surveyResultListener).execute(DatabaseRequest.REPLY,
+                            getIntent().getStringExtra(SurveyActivity.CATEGORY_ID),
+                            ParticipantID,
+                            getIntent().getStringExtra(SurveyActivity.SURVEY_ANSWER),
+                            recordValue.toString());
                 } else {
-                    Log.d("<<<<<<<<<<<<<<<<<< 설문자 정보 생성", result[1]);
+                    Log.d("<<<<<<<<<<<<<<<<<< 설문자 생성 실패", result[1]);
                 }
             }
         };
+    }
+
+    private DatabaseRequest.ExecuteListener surveyResultListener;
+    {
+        surveyResultListener = new DatabaseRequest.ExecuteListener() {
+            @Override
+            public void onResult(String... result) {
+                if (result[0].equals("INSERT_OK")) {
+                    Log.d("<<<<<<<<<<<<<<<<<< 설문 완료", result[0]);
+                    saveSurveyFinish(ParticipantID);
+                    DialogMaker dialogMaker = new DialogMaker(ContentSelectActivity.this, DialogMaker.SURVEY_FINISH, ContentSelectActivity.this);
+                    dialogMaker.show();
+                }else {
+                    Log.d("<<<<<<<<<<<<<<<<<< 결과 업로드 실패", result[0]);
+                }
+            }
+        };
+    }
+
+    private void saveSurveyFinish(String id) {
+        File saveFile;
+        if(Build.VERSION.SDK_INT < 29)
+            saveFile = new File(Environment.getExternalStorageDirectory()+"/SSCR_SurveyCheck");
+        else
+            saveFile = this.getExternalFilesDir("/SSCR_SurveyCheck");
+
+        if (!saveFile.exists()) {
+            saveFile.mkdir();
+        }
+
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(saveFile+"/survey_check.txt", false));
+            String value = "[{id:"+id+",category_id:"+getIntent().getStringExtra(SurveyActivity.CATEGORY_ID)+",date:"+new MakeDate().makeDateString() +",status:done}]";
+            bufferedWriter.append(value);
+            bufferedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

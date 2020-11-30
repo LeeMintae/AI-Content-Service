@@ -189,7 +189,7 @@ public class SurveyActivity extends FragmentActivity {
 //    }
 
     private void setCategory() {
-        categoryID = "cat_20201111141225";
+        categoryID = MainActivity.CATEGORY_ID;
         categoryName = "사용자 유형 분석";
     }
 

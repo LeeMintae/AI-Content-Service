@@ -62,7 +62,7 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
         void onResult(boolean isChecked, JSONObject selectedContent, float ratingValue);
     }
     public interface RatingChangeListener {
-        void onResult(String id, float ratingValue);
+        void onResult(JSONObject targetContent, float ratingValue);
     }
 
     private final ContentSelectListener contentSelectListener;
@@ -190,13 +190,14 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
                 holder.rtbLikePoint.setIsIndicator(true);
             }
 
-            holder.rtbLikePoint.setTag(mData.getJSONObject(position).getString("m_yctnt_idx"));
+//            holder.rtbLikePoint.setTag(mData.getJSONObject(position).getString("m_yctnt_idx"));
+            holder.rtbLikePoint.setTag(mData.getJSONObject(position));
             RatingBar.OnRatingBarChangeListener onRatingBarChangeListener = new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     Log.d("<<<<<<<<<<<< rtb ID ", ratingBar.getTag().toString());
                     Log.d("<<<<<<<<<<<<rating", rating+"");
-                    ratingChangeListener.onResult(ratingBar.getTag().toString(), rating);
+                    ratingChangeListener.onResult((JSONObject)ratingBar.getTag(), rating);
                     RATINGBAR_LOG.set(position, holder.rtbLikePoint.getRating());
                 }
             };

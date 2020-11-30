@@ -77,7 +77,11 @@ public class DatabaseRequest extends AsyncTask<String, String, String> {
 //                    replyData.add(value);
 //                }
 //                parameters = USE+params[0]+"&"+ID+params[1]+"&"+REPLIES+replyData;
-                parameters = USE+params[0]+"&"+ CATEGORY_ID +params[1]+"&"+ID+params[2]+"&"+ REPLIES +params[3];
+                parameters = USE+params[0]+"&"+
+                        CATEGORY_ID +params[1]+"&"+
+                        ID+params[2]+"&"+
+                        REPLIES +params[3]+"&"+
+                        CONTENTS +params[4];
                 Log.i("응답 확인", parameters);
                 break;
             default:

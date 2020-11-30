@@ -20,6 +20,7 @@ public class DialogMaker extends Dialog {
 
     public static final int SUBMIT_CONFIRM = 0;
     public static final int EXIT_CONFIRM = 1;
+    public static final int SURVEY_FINISH = 100;
 
     private int category;
     private Activity target;
@@ -51,6 +52,10 @@ public class DialogMaker extends Dialog {
 //                ((TextView)findViewById(R.id.tVwPatGender)).setText(pGender);
 //                findViewById(R.id.btnSubmitYes).setOnClickListener(clickListener);
 //                findViewById(R.id.btnSubmitNo).setOnClickListener(clickListener);
+                break;
+            case SURVEY_FINISH:
+                setContentView(R.layout.dialog_survey_finish);
+                findViewById(R.id.btnSurveyFinish).setOnClickListener(clickListener);
                 break;
             case EXIT_CONFIRM:
                 setContentView(R.layout.dialog_exit_confirm);
@@ -98,6 +103,11 @@ public class DialogMaker extends Dialog {
                         break;
                     case R.id.btnExitNo:
                         dismiss();
+                        break;
+                    case R.id.btnSurveyFinish:
+                        target.finishAffinity();
+                        System.runFinalization();
+                        System.exit(0);
                         break;
                     default:
                         break;
