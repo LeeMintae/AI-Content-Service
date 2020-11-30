@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -63,6 +64,7 @@ public class ParticipantActivity extends AppCompatActivity {
 
         ((RadioGroup)findViewById(R.id.rGrpHealthEvaluation)).setOnCheckedChangeListener(onCheckedChangeListener);
         ((RadioGroup)findViewById(R.id.rGrpAgree)).setOnCheckedChangeListener(onCheckedChangeListener);
+        ((RadioGroup)findViewById(R.id.rGrp3Agree)).setOnCheckedChangeListener(onCheckedChangeListener);
         findViewById(R.id.btnMainSurvey).setOnClickListener(clickMainSurvey);
     }
 
@@ -104,9 +106,21 @@ public class ParticipantActivity extends AppCompatActivity {
                         break;
                     case R.id.rGrpAgree:
                         if (checkedId == R.id.rBtnAgree) {
-                            findViewById(R.id.btnMainSurvey).setEnabled(true);
+                            if (((RadioButton)findViewById(R.id.rBtn3Agree)).isChecked()) {
+                                findViewById(R.id.btnMainSurvey).setEnabled(true);
+                            }
                         } else {
                             Toast.makeText(getBaseContext(), getString(R.string.notify_agree), Toast.LENGTH_SHORT).show();
+                            findViewById(R.id.btnMainSurvey).setEnabled(false);
+                        }
+                        break;
+                    case R.id.rGrp3Agree:
+                        if (checkedId == R.id.rBtn3Agree) {
+                            if (((RadioButton)findViewById(R.id.rBtnAgree)).isChecked()) {
+                                findViewById(R.id.btnMainSurvey).setEnabled(true);
+                            }
+                        } else {
+                            Toast.makeText(getBaseContext(), getString(R.string.notify_3agree), Toast.LENGTH_SHORT).show();
                             findViewById(R.id.btnMainSurvey).setEnabled(false);
                         }
                         break;

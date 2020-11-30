@@ -37,6 +37,7 @@
     <string name="notify_input_email_fault">적절한 이메일을 입력하세요</string>
     <string name="notify_input_healtheval">건강 평가를 해주세요</string>
     <string name="notify_agree">개인 정보 수집 및 활용에 동의하지 않으면 설문을 진행하실 수 없습니다</string>
+    <string name="notify_3agree">개인 정보 제3자 수집 및 이용 제공에 동의하지 않으면 설문을 진행하실 수 없습니다</string>
     <string name="txt_select_guide">선호하는 콘텐츠를 선택하고 별점을 주세요</string>
     <string name="msg_content_limit">최소 5개 이상의 콘텐츠를 선택하고 별점을 주세요</string>
     <string name="title_survey_finish">설문 응답 종료</string>
@@ -62,6 +63,7 @@
     <string name="txt_health">평소 본인의 건강상태에 대한 평가는?</string>
     <string name="txt_email">이메일</string>
     <string name="txt_individual_use">개인 정보 수집 및 활용 동의</string>
+    <string name="txt_individual_3use">개인 정보 제3자 수집 및 이용 제공 동의</string>
     <string name="txt_agree">동의합니다</string>
     <string name="txt_disagree">동의하지 않습니다</string>
 </resources>
