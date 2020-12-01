@@ -19,6 +19,18 @@
     <!--&lt;!&ndash;        <item name="colorAccent">@color/colorAccent</item>&ndash;&gt;-->
     <!--    </style>-->
 
+    <style name="MyTheme.NoTitleBar.SplashWindow" parent="@style/AppTheme">
+        <item name="android:windowBackground">@drawable/splash_img</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="IntroTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_img</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     <style name="Notification">
         <item name="android:textSize">20sp</item>
     </style>

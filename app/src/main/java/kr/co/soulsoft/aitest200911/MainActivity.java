@@ -30,6 +30,7 @@ import kr.co.soulsoft.aitest200911.utils.DialogMaker;
 
 public class MainActivity extends FragmentActivity {
 
+    //region Value Definition
     private ArrayList<String> participantInfo;
     private JSONArray dataSource;
     private String categoryID, categoryName;
@@ -37,16 +38,20 @@ public class MainActivity extends FragmentActivity {
 //    public static final String CATEGORY_ID = "cat_20201111141225";
     public static final String CATEGORY_ID = "cat_20201130222122";
 
+    //endregion
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             getWindow().setDecorFitsSystemWindows(false);
         }
+
         setContentView(R.layout.activity_main);
 
         SetWidget();
     }
+
 
     @Override
     protected void onRestart() {

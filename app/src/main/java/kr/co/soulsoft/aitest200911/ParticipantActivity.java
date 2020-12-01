@@ -30,8 +30,8 @@ import kr.co.soulsoft.aitest200911.utils.MakeID;
 
 public class ParticipantActivity extends AppCompatActivity {
 
+    // region Value Definition
     private ConnectivityManager connectivityManager;
-
     private int participantGender;
     private static final int MAX_AGE = 80;
     private static final int MIN_AGE = 14;
@@ -43,6 +43,8 @@ public class ParticipantActivity extends AppCompatActivity {
     private int participantHealthEval = HEALTH_EVAL_THRESHOLD;
 
     public final static String PARTICIPANT_INFO = "PARTICIPANT_INFO";
+
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
