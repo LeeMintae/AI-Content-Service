@@ -1,6 +1,7 @@
 package kr.co.soulsoft.aitest200911;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,11 +21,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import kr.co.soulsoft.aitest200911.adapter.ContentListAdapter;
 import kr.co.soulsoft.aitest200911.data.DatabaseRequest;
@@ -84,8 +81,9 @@ public class ContentSelectActivity extends AppCompatActivity {
                     return;
                 }
                 try {
+                    Intent intent = new Intent(getBaseContext(), ContentViewerActivity.class);
                     resultData = new JSONArray(result[0]);
-                    contentListAdapter = new ContentListAdapter(resultData, contentSelectListener, ratingChangeListener);
+                    contentListAdapter = new ContentListAdapter(resultData, contentViewListener, contentSelectListener, ratingChangeListener);
                     Log.d("<<<<<<<<< 콘텐츠 리스트", resultData.length()+"");
 
                     RecyclerView recyclerView = findViewById(R.id.rcyclrContentList);
@@ -96,6 +94,19 @@ public class ContentSelectActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
+        };
+    }
+
+    private final ContentListAdapter.ContentViewListener contentViewListener;
+    {
+        contentViewListener = new ContentListAdapter.ContentViewListener() {
+            @Override
+            public void onResult(String contentID) {
+                Log.d("((((((((((((((((( Content ID 확인", contentID);
+                Intent intent = new Intent(getBaseContext(), ContentViewerActivity.class);
+                intent.putExtra("CONTENT_ID", contentID);
+                startActivity(intent);
             }
         };
     }

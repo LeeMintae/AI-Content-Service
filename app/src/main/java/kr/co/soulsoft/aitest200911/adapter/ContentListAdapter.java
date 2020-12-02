@@ -1,6 +1,7 @@
 package kr.co.soulsoft.aitest200911.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -64,9 +65,14 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
     public interface RatingChangeListener {
         void onResult(JSONObject targetContent, float ratingValue);
     }
+    public interface ContentViewListener {
+        void onResult(String contentID);
+    }
 
     private final ContentSelectListener contentSelectListener;
+    private final ContentViewListener contentViewListener;
     private final RatingChangeListener ratingChangeListener;
+
 
     private ArrayList<Boolean> CHECKBOX_LOG;
     private ArrayList<Float> RATINGBAR_LOG;
@@ -94,8 +100,11 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
      * Modify Req
      * @param arrayList YouTube Content List data
      */
-    public ContentListAdapter(JSONArray arrayList, ContentSelectListener contentSelectListener, RatingChangeListener ratingChangeListener) {
+    public ContentListAdapter(JSONArray arrayList, ContentViewListener contentViewListener,
+                              ContentSelectListener contentSelectListener,
+                              RatingChangeListener ratingChangeListener) {
         mData = arrayList;
+        this.contentViewListener = contentViewListener;
         this.contentSelectListener = contentSelectListener;
         this.ratingChangeListener = ratingChangeListener;
         CHECKBOX_LOG = new ArrayList<>();
@@ -110,6 +119,7 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
     @Override
     public ContentListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         this.context = parent.getContext();
+
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View view = inflater.inflate(R.layout.list_item_template, parent, false);
@@ -145,7 +155,7 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
 //            e.printStackTrace();
 //        }
         try {
-            String[] urlSource = mData.getJSONObject(position).getString("m_yctnt_url").split("v=");
+            final String[] urlSource = mData.getJSONObject(position).getString("m_yctnt_url").split("v=");
 
 //            new searchTask().execute(urlSource[1]);
 //            new YoutubeAsyncTask().execute(urlSource[1]);
@@ -153,6 +163,14 @@ public class ContentListAdapter extends RecyclerView.Adapter<ContentListAdapter.
             String imageURL = YOUTUBE_IMG_URL_PREFIX+urlSource[1]+YOUTUBE_IMG_URL_SUFFIX;
             ImageLoadTask imageLoadTask = new ImageLoadTask(holder);
             imageLoadTask.execute(imageURL);
+
+            View.OnClickListener contentClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    contentViewListener.onResult(urlSource[1]);
+                }
+            };
+            holder.imgVwYoutubeThumb.setOnClickListener(contentClickListener);
 
 
             holder.tVwContentTitle.setText(mData.getJSONObject(position).getString("m_yctnt_title"));

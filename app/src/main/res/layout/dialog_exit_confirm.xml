@@ -34,6 +34,7 @@
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:text="@string/txt_exit_title"
+            android:textColor="#FF4E4E4E"
             android:textSize="25sp"
             android:textStyle="bold" />
 
@@ -54,9 +55,11 @@
 
         <TextView
             android:id="@+id/textView9"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="@string/alert_survey_exit"
+            android:textColor="#4E4E4E"
             android:textSize="23sp" />
 
     </LinearLayout>
