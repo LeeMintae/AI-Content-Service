@@ -12,6 +12,8 @@
     <string name="btn_dialog_yes">예</string>
     <string name="btn_dialog_no">아니오</string>
     <string name="btn_dialog_finish_confirm">확인</string>
+    <string name="btn_dialog_agree_cancel">취소</string>
+    <string name="btn_dialog_agree">설문 시작</string>
 
     <!--    Service Message-->
     <string name="msg_survey_absent">설문 내용이 없습니다</string>
@@ -35,6 +37,8 @@
     <string name="notify_input_weight_fault">적절한 체중 수치를 입력하세요</string>
     <string name="notify_input_email">이메일을 입력하세요</string>
     <string name="notify_input_email_fault">적절한 이메일을 입력하세요</string>
+    <string name="notify_input_cellphone">휴대폰 번호를 입력하세요</string>
+    <string name="notify_input_cellphone_fault">적절한 휴대폰 번호를 입력하세요</string>
     <string name="notify_input_healtheval">건강 평가를 해주세요</string>
     <string name="notify_agree">개인 정보 수집 및 활용에 동의하지 않으면 설문을 진행하실 수 없습니다</string>
     <string name="notify_3agree">개인 정보 제3자 수집 및 이용 제공에 동의하지 않으면 설문을 진행하실 수 없습니다</string>
@@ -46,6 +50,7 @@
     <!--    Hint-->
     <string name="hint">입력하세요</string>
     <string name="hint_email">email@mail.com</string>
+    <string name="hint_cellphone">010-1234-5678</string>
 
     <string name="txt_bad">최악</string>
     <string name="txt_no_good">나쁨</string>
@@ -62,8 +67,28 @@
     <string name="txt_weight">체중</string>
     <string name="txt_health">평소 본인의 건강상태에 대한 평가는?</string>
     <string name="txt_email">이메일</string>
+    <string name="txt_cellphone">휴대폰</string>
     <string name="txt_individual_use">개인 정보 수집 및 활용 동의</string>
     <string name="txt_individual_3use">개인 정보 제3자 수집 및 이용 제공 동의</string>
     <string name="txt_agree">동의합니다</string>
+    <string name="txt_agree_mandatory">(필수) 동의합니다</string>
     <string name="txt_disagree">동의하지 않습니다</string>
+    <string name="txt_individual_title">개인 정보 활용 동의</string>
+    <string name="txt_individual_category">개인 정보 수집ㆍ이용 목적 및 수집 항목</string>
+    <string name="txt_individual_category_detail">\n
+        ① 수집·이용 목적 : 당첨자추첨 및 선물발송\n
+        ② 수집·이용 항목 : 이름, 핸드폰번호\n
+        ③ 수집·이용 기간 : 이벤트 종료 후 지체 없이 파기, 당첨자는 선물 발송을 위해 30일간 보관\n
+        ④ 귀하는 개인정보 수집 동의에 거부하실 수 있으며, 동의 거부 시 이벤트 참여가 불가합니다.\n
+        ⑤ 해당 이벤트는 만 14세 미만의 고객은 참여가 불가합니다.\n
+        ⑥ 만 14세 미만의 고객님은 이벤트 참여 시 참여가 자동취소 되며, 추후 당첨자로 선정될 경우 별도 안내 없이 당첨이 자동 취소됩니다.\n
+        ⑦ 약관 동의 내용에 대한 미확인으로 인한 불이익은 응모자 본인에게 책임이 있습니다.
+    </string>
+    <string name="txt_individual_3rd_detail">\n
+        ① 개인정보 제공처 : \n
+        ② 개인정보 제3자 제공목적 : 이벤트 선물 발송\n
+        ③ 제공하려는 개인정보의 항목 : 이름, 핸드폰번호\n
+        ④ 개인정보의 보유 및 이용기간 : 이벤트 종료 후 지체 없이 파기, 당첨자는 선물 발송을 위해 30일간 보관\n
+        ⑤ 귀하는 개인정보 제공 동의에 거부하실 수 있으며, 거부 시 이벤트 참여가 불가합니다.
+    </string>
 </resources>

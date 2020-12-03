@@ -203,8 +203,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"
                 android:ems="10"
+                android:gravity="center"
                 android:hint="@string/hint_email"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:autofillHints="" />
 
         </LinearLayout>
 
@@ -212,81 +214,33 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/txt_individual_use" />
-
-            <RadioGroup
-                android:id="@+id/rGrpAgree"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/rBtnDisagree"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/txt_disagree"
-                    android:textColor="@android:color/holo_red_dark" />
-
-                <RadioButton
-                    android:id="@+id/rBtnAgree"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/txt_agree" />
-            </RadioGroup>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textView14"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/txt_individual_3use" />
+                android:layout_weight="1"
+                android:text="@string/txt_cellphone" />
 
-            <RadioGroup
-                android:id="@+id/rGrp3Agree"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <EditText
+                android:id="@+id/eTxtCellPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
                 android:gravity="center"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/rBtn3Disagree"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/txt_disagree"
-                    android:textColor="@android:color/holo_red_dark" />
-
-                <RadioButton
-                    android:id="@+id/rBtn3Agree"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/txt_agree" />
-            </RadioGroup>
-
+                android:hint="@string/hint_cellphone"
+                android:inputType="phone"
+                android:autofillHints="" />
         </LinearLayout>
 
         <Button
             android:id="@+id/btnMainSurvey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="false"
+            android:enabled="true"
             android:text="@string/btn_next_survey" />
 
     </LinearLayout>

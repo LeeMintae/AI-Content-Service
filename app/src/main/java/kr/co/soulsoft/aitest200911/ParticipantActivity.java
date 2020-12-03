@@ -2,7 +2,6 @@ package kr.co.soulsoft.aitest200911;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -26,12 +25,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import kr.co.soulsoft.aitest200911.utils.MakeID;
+import kr.co.soulsoft.aitest200911.utils.DialogMaker;
 
 public class ParticipantActivity extends AppCompatActivity {
 
     // region Value Definition
     private ConnectivityManager connectivityManager;
+    private ArrayList<String> USER_INFO;
     private int participantGender;
     private static final int MAX_AGE = 80;
     private static final int MIN_AGE = 14;
@@ -65,8 +65,8 @@ public class ParticipantActivity extends AppCompatActivity {
         ((Spinner)findViewById(R.id.spnGender)).setOnItemSelectedListener(onGenderSelect);
 
         ((RadioGroup)findViewById(R.id.rGrpHealthEvaluation)).setOnCheckedChangeListener(onCheckedChangeListener);
-        ((RadioGroup)findViewById(R.id.rGrpAgree)).setOnCheckedChangeListener(onCheckedChangeListener);
-        ((RadioGroup)findViewById(R.id.rGrp3Agree)).setOnCheckedChangeListener(onCheckedChangeListener);
+//        ((RadioGroup)findViewById(R.id.rGrpAgree)).setOnCheckedChangeListener(onCheckedChangeListener);
+//        ((RadioGroup)findViewById(R.id.rGrp3Agree)).setOnCheckedChangeListener(onCheckedChangeListener);
         findViewById(R.id.btnMainSurvey).setOnClickListener(clickMainSurvey);
     }
 
@@ -106,26 +106,26 @@ public class ParticipantActivity extends AppCompatActivity {
                         }
                         participantHealthEval = healthEval.indexOf(checkedId);
                         break;
-                    case R.id.rGrpAgree:
-                        if (checkedId == R.id.rBtnAgree) {
-                            if (((RadioButton)findViewById(R.id.rBtn3Agree)).isChecked()) {
-                                findViewById(R.id.btnMainSurvey).setEnabled(true);
-                            }
-                        } else {
-                            Toast.makeText(getBaseContext(), getString(R.string.notify_agree), Toast.LENGTH_SHORT).show();
-                            findViewById(R.id.btnMainSurvey).setEnabled(false);
-                        }
-                        break;
-                    case R.id.rGrp3Agree:
-                        if (checkedId == R.id.rBtn3Agree) {
-                            if (((RadioButton)findViewById(R.id.rBtnAgree)).isChecked()) {
-                                findViewById(R.id.btnMainSurvey).setEnabled(true);
-                            }
-                        } else {
-                            Toast.makeText(getBaseContext(), getString(R.string.notify_3agree), Toast.LENGTH_SHORT).show();
-                            findViewById(R.id.btnMainSurvey).setEnabled(false);
-                        }
-                        break;
+//                    case R.id.rGrpAgree:
+//                        if (checkedId == R.id.rBtnAgree) {
+//                            if (((RadioButton)findViewById(R.id.rBtn3Agree)).isChecked()) {
+//                                findViewById(R.id.btnMainSurvey).setEnabled(true);
+//                            }
+//                        } else {
+//                            Toast.makeText(getBaseContext(), getString(R.string.notify_agree), Toast.LENGTH_SHORT).show();
+//                            findViewById(R.id.btnMainSurvey).setEnabled(false);
+//                        }
+//                        break;
+//                    case R.id.rGrp3Agree:
+//                        if (checkedId == R.id.rBtn3Agree) {
+//                            if (((RadioButton)findViewById(R.id.rBtnAgree)).isChecked()) {
+//                                findViewById(R.id.btnMainSurvey).setEnabled(true);
+//                            }
+//                        } else {
+//                            Toast.makeText(getBaseContext(), getString(R.string.notify_3agree), Toast.LENGTH_SHORT).show();
+//                            findViewById(R.id.btnMainSurvey).setEnabled(false);
+//                        }
+//                        break;
                     default:
                         break;
                 }
@@ -183,22 +183,43 @@ public class ParticipantActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), getString(R.string.notify_input_email_fault), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                ArrayList<String> userInfo = new ArrayList<>();
-                userInfo.add("id");
-                userInfo.add(participantGender+"");
-                userInfo.add(age);
-                userInfo.add(height);
-                userInfo.add(weight);
-                userInfo.add(participantHealthEval+"");
-                userInfo.add(email);
-                Log.d("(((((((((((( 사용자 정보 )))))))", userInfo.toString());
+                String[] temp = ((EditText)findViewById(R.id.eTxtCellPhone)).getText().toString().split("-");
+                StringBuilder cellPhone = new StringBuilder();
+                for (String number : temp) {
+                    cellPhone.append(number);
+                }
 
-                Intent i = new Intent(ParticipantActivity.this, SurveyActivity.class);
-                i.putExtra(PARTICIPANT_INFO, userInfo);
+                if (cellPhone.toString().equals("")) {
+                    Toast.makeText(getBaseContext(), getString(R.string.notify_input_cellphone), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (cellPhone.length() < 9) {
+                    Toast.makeText(getBaseContext(), getString(R.string.notify_input_cellphone_fault), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                USER_INFO = new ArrayList<>();
+                USER_INFO.add("id");
+                USER_INFO.add(participantGender+"");
+                USER_INFO.add(age);
+                USER_INFO.add(height);
+                USER_INFO.add(weight);
+                USER_INFO.add(participantHealthEval+"");
+                USER_INFO.add(email);
+                USER_INFO.add(cellPhone.toString());
+                Log.d("(((((((((((( 사용자 정보 )))))))", USER_INFO.toString());
 
-                if (checkDate()) {
-                    startActivity(i);
-                };
+                new DialogMaker(ParticipantActivity.this, DialogMaker.INDIVIDUAL_CONFIRM, new DialogMaker.IndividualAgreeListener() {
+                    @Override
+                    public void onResult(boolean isAgree) {
+                        if (isAgree) {
+                            Intent i = new Intent(ParticipantActivity.this, SurveyActivity.class);
+                            i.putExtra(PARTICIPANT_INFO, USER_INFO);
+
+                            if (checkDate())
+                                startActivity(i);
+                        }
+                    }
+                }).show();
             }
         };
     }

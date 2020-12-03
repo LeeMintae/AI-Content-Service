@@ -11,8 +11,8 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
-
-import androidx.annotation.NonNull;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import kr.co.soulsoft.aitest200911.R;
 
@@ -20,24 +20,30 @@ public class DialogMaker extends Dialog {
 
     public static final int SUBMIT_CONFIRM = 0;
     public static final int EXIT_CONFIRM = 1;
+    public static final int INDIVIDUAL_CONFIRM = 10;
     public static final int SURVEY_FINISH = 100;
 
-    private int category;
+    private final int category;
     private Activity target;
-    private String pName, pAge, pGender;
-    private int pIgender;
-
     private ProgressDialog progressDialog;
 
-    public DialogMaker(@NonNull Context context, int category) {
-        super(context);
-        this.category = category;
+    public interface IndividualAgreeListener {
+        void onResult(boolean isAgree);
     }
+    private IndividualAgreeListener individualAgreeListener;
+    private boolean isIndividualAgree = false;
+    private boolean isIndividualAgree3rd = false;
 
     public DialogMaker(Context context, int category, Activity target) {
         super(context);
         this.category = category;
         this.target = target;
+    }
+
+    public DialogMaker(Context context, int category, IndividualAgreeListener individualAgreeListener) {
+        super(context);
+        this.category = category;
+        this.individualAgreeListener = individualAgreeListener;
     }
 
     @Override
@@ -53,22 +59,29 @@ public class DialogMaker extends Dialog {
 //                findViewById(R.id.btnSubmitYes).setOnClickListener(clickListener);
 //                findViewById(R.id.btnSubmitNo).setOnClickListener(clickListener);
                 break;
-            case SURVEY_FINISH:
-                setContentView(R.layout.dialog_survey_finish);
-                findViewById(R.id.btnSurveyFinish).setOnClickListener(clickListener);
+            case INDIVIDUAL_CONFIRM:
+                setContentView(R.layout.dialog_indivisual_confirm);
+                ((CheckBox)findViewById(R.id.ckbAgreeIndividual)).setOnCheckedChangeListener(onCheckedChangeListener);
+                ((CheckBox)findViewById(R.id.ckbAgreeIndividual3rd)).setOnCheckedChangeListener(onCheckedChangeListener);
+                findViewById(R.id.btnAgreeCancel).setOnClickListener(clickListener);
+                findViewById(R.id.btnAgreeConfirm).setOnClickListener(clickListener);
                 break;
             case EXIT_CONFIRM:
                 setContentView(R.layout.dialog_exit_confirm);
                 findViewById(R.id.btnExitYes).setOnClickListener(clickListener);
                 findViewById(R.id.btnExitNo).setOnClickListener(clickListener);
                 break;
+            case SURVEY_FINISH:
+                setContentView(R.layout.dialog_survey_finish);
+                findViewById(R.id.btnSurveyFinish).setOnClickListener(clickListener);
+                break;
             default:
                 break;
         }
-        setLayoutParams();
+        setLayoutParams(category);
     }
 
-    private void setLayoutParams() {
+    private void setLayoutParams(int category) {
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND|WindowManager.LayoutParams.FLAG_FULLSCREEN;
 
@@ -76,8 +89,18 @@ public class DialogMaker extends Dialog {
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
         this.setCanceledOnTouchOutside(false);
 
-        layoutParams.height = (int)(displayMetrics.heightPixels*0.4);
-        layoutParams.width = (int)(displayMetrics.widthPixels*0.9);
+        switch (category) {
+            case INDIVIDUAL_CONFIRM:
+                layoutParams.height = (int)(displayMetrics.heightPixels*0.9);
+                layoutParams.width = (int)(displayMetrics.widthPixels);
+                break;
+            case 999:
+                break;
+            default:
+                layoutParams.height = (int)(displayMetrics.heightPixels*0.4);
+                layoutParams.width = (int)(displayMetrics.widthPixels*0.9);
+                break;
+        }
 
         getWindow().setAttributes(layoutParams);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -97,10 +120,15 @@ public class DialogMaker extends Dialog {
 //                    case R.id.btnSubmitNo:
 //                        dismiss();
 //                        break;
+                    case R.id.btnAgreeConfirm:
+                        individualAgreeListener.onResult(true);
+                        dismiss();
+                        break;
                     case R.id.btnExitYes:
                         dismiss();
                         target.finish();
                         break;
+                    case R.id.btnAgreeCancel:
                     case R.id.btnExitNo:
                         dismiss();
                         break;
@@ -113,6 +141,27 @@ public class DialogMaker extends Dialog {
                         break;
 
                 }
+            }
+        };
+    }
+
+    private final CompoundButton.OnCheckedChangeListener onCheckedChangeListener;
+    {
+        onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+            @SuppressLint("NonConstantResourceId")
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                switch (buttonView.getId()) {
+                    case R.id.ckbAgreeIndividual:
+                        isIndividualAgree = isChecked;
+                        break;
+                    case R.id.ckbAgreeIndividual3rd:
+                        isIndividualAgree3rd = isChecked;
+                        break;
+                    default:
+                        break;
+                }
+                findViewById(R.id.btnAgreeConfirm).setEnabled(isIndividualAgree && isIndividualAgree3rd);
             }
         };
     }

@@ -150,6 +150,7 @@ public class DatabaseRequest extends AsyncTask<String, String, String> {
         String WEIGHT = "PARTICIPANT_WEIGHT=";
         String HLEVEL = "PARTICIPANT_HLEVEL=";
         String EMAIL = "PARTICIPANT_EMAIL=";
+        String CELLPHONE = "PARTICIPANT_CELLPHONE=";
         return USE+params[0]+"&"+
                 ID+currentUserID+"&"+
                 GENDER +params[1]+"&"+
@@ -157,18 +158,7 @@ public class DatabaseRequest extends AsyncTask<String, String, String> {
                 HEIGHT +params[3]+"&"+
                 WEIGHT +params[4]+"&"+
                 HLEVEL +params[5]+"&"+
-                EMAIL +params[6];
+                EMAIL +params[6]+"&"+
+                CELLPHONE + params[7];
     }
-
-//    private String makeParameter(String... params) {
-//        currentUserID = new MakeID().getID();
-//        String NAME = "PARTICIPANT_NAME=";
-//        String AGE = "PARTICIPANT_AGE=";
-//        String GENDER = "PARTICIPANT_GENDER=";
-//        return USE+params[0]+"&"+
-//                ID+currentUserID+"&"+
-//                NAME +params[1]+"&"+
-//                AGE +params[2]+"&"+
-//                GENDER +params[3];
-//    }
 }

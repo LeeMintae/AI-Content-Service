@@ -198,7 +198,8 @@ public class ContentSelectActivity extends AppCompatActivity {
                         participantInfo.get(3),
                         participantInfo.get(4),
                         participantInfo.get(5),
-                        participantInfo.get(6));
+                        participantInfo.get(6),
+                        participantInfo.get(7));
             }
         };
     }
