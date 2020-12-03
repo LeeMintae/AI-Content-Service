@@ -1,6 +1,8 @@
 package kr.co.soulsoft.aitest200911.adapter;
 
 import android.content.Context;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +30,9 @@ public class SurveyAdapter extends PagerAdapter {
         this.parentData = parentData;
     }
 
+    @NonNull
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
         View view;
         layoutInflater = LayoutInflater.from(context);
 
@@ -52,7 +55,8 @@ public class SurveyAdapter extends PagerAdapter {
             } else {
                 view.findViewById(R.id.tVwQuestion1).setVisibility(View.GONE);
                 view.findViewById(R.id.spaceQuestionGap).setVisibility(View.GONE);
-                ((TextView)view.findViewById(R.id.tVwQuestion2)).setText(dataSource.getJSONObject(dataIndex).getString("m_survey_text"));
+                Log.d("<<<<<<<<<<<<<<<<<텍스트 확인",dataSource.getJSONObject(dataIndex).getString("m_survey_text") );
+                ((TextView)view.findViewById(R.id.tVwQuestion2)).setText(Html.fromHtml(dataSource.getJSONObject(dataIndex).getString("m_survey_text"), Html.FROM_HTML_MODE_LEGACY));
             }
 //            if (subSource.size() > 0) {
 //                if (dataSource.getJSONObject(position).getInt("m_survey_parent") > 0) {

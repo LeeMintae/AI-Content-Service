@@ -45,7 +45,7 @@
     <string name="txt_select_guide">선호하는 콘텐츠를 선택하고 별점을 주세요</string>
     <string name="msg_content_limit">최소 5개 이상의 콘텐츠를 선택하고 별점을 주세요</string>
     <string name="title_survey_finish">설문 응답 종료</string>
-    <string name="msg_survey_finish">설문이 종료되었습니다.\n참여해 주셔서 감사합니다</string>
+    <string name="msg_survey_finish">설문 참여가 종료되었습니다\n경품당첨 등 해당 사항은 참여자의 메일이나 연락처로 알려드리도록 하겠습니다\n참여해 주셔서 감사합니다</string>
 
     <!--    Hint-->
     <string name="hint">입력하세요</string>

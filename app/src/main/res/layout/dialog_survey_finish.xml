@@ -18,7 +18,9 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/title_survey_finish"
-            android:textSize="18sp" />
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
@@ -34,7 +36,9 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/msg_survey_finish"
-            android:textSize="22sp" />
+            android:textColor="#000000"
+            android:textSize="22sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
