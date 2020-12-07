@@ -35,8 +35,8 @@ public class MainActivity extends FragmentActivity {
     private JSONArray dataSource;
     private String categoryID, categoryName;
     private int click = 0;
-//    public static final String CATEGORY_ID = "cat_20201111141225";
-    public static final String CATEGORY_ID = "cat_20201130222122";
+    public static final String CATEGORY_ID = "cat_20201111141225";
+//    public static final String CATEGORY_ID = "cat_20201130222122";
 
     //endregion
 
@@ -61,7 +61,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void SetWidget() {
-        checkRecord();
+
         setFullScreen();
         checkPermission();
 
@@ -128,37 +128,5 @@ public class MainActivity extends FragmentActivity {
         };
     }
 
-    private boolean checkRecord() {
-        File saveFile;
 
-        if(Build.VERSION.SDK_INT < 29)
-            saveFile = new File(Environment.getExternalStorageDirectory()+"/SSCR_SurveyCheck");
-        else
-            saveFile = this.getExternalFilesDir("/SSCR_SurveyCheck");
-
-        if(saveFile == null)
-            saveFile.mkdir();
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(saveFile+"/survey_check.txt"));
-            String temp = bufferedReader.readLine();
-            Log.d("<<<<<<<<<<<<<<<<< 정보 확인", temp);
-            JSONArray jsonArray = new JSONArray(temp);
-            JSONObject record = jsonArray.getJSONObject(0);
-            if (record.getString("category_id").equals(CATEGORY_ID)) {
-                DialogMaker dialogMaker = new DialogMaker(MainActivity.this, DialogMaker.SURVEY_FINISH, this);
-                dialogMaker.show();
-                return true;
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        } catch (JSONException j) {
-            j.printStackTrace();
-            return false;
-        }
-        return false;
-    }
 }

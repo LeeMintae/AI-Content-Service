@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,6 +23,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,7 +61,42 @@ public class ParticipantActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_participant);
+        checkRecord();
         setWidget();
+    }
+
+    private boolean checkRecord() {
+        File saveFile;
+
+        if(Build.VERSION.SDK_INT < 29)
+            saveFile = new File(Environment.getExternalStorageDirectory()+"/SSCR_SurveyCheck");
+        else
+            saveFile = this.getExternalFilesDir("/SSCR_SurveyCheck");
+
+        if(saveFile == null)
+            saveFile.mkdir();
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(saveFile+"/survey_check.txt"));
+            String temp = bufferedReader.readLine();
+            Log.d("<<<<<<<<<<<<<<<<< 정보 확인", temp);
+            JSONArray jsonArray = new JSONArray(temp);
+            JSONObject record = jsonArray.getJSONObject(0);
+            if (record.getString("category_id").equals(MainActivity.CATEGORY_ID)) {
+                DialogMaker dialogMaker = new DialogMaker(ParticipantActivity.this, DialogMaker.SURVEY_FINISH, this);
+                dialogMaker.show();
+                return true;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } catch (JSONException j) {
+            j.printStackTrace();
+            return false;
+        }
+        return false;
     }
 
     private void setWidget() {
