@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="@string/kakao_app_key"/>
         <activity android:name=".ContentViewerActivity"></activity>
         <activity android:name=".SplashActivity">
             <intent-filter>
