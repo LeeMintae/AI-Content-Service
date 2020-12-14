@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/participant_bg"
     android:gravity="center_vertical"
     android:orientation="vertical"
     android:padding="30sp"
@@ -14,14 +15,15 @@
         style="@style/SurveyCategory"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="0.96"
+        android:layout_weight="0.45"
         android:text="@string/txt_base_category" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.04"
-        android:orientation="vertical">
+        android:layout_weight="0.15"
+        android:orientation="vertical"
+        android:paddingLeft="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,6 +34,7 @@
 
             <TextView
                 android:id="@+id/textView"
+                style="@style/TextParticipantInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
@@ -42,6 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
+                android:backgroundTint="#000000"
                 android:gravity="center" />
 
         </LinearLayout>
@@ -55,6 +59,7 @@
 
             <TextView
                 android:id="@+id/textView2"
+                style="@style/TextParticipantInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -62,10 +67,12 @@
 
             <EditText
                 android:id="@+id/eTxtAge"
+                style="@style/TextParticipantInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:autofillHints=""
+                android:backgroundTint="#000000"
                 android:ems="10"
                 android:hint="@string/hint"
                 android:inputType="numberDecimal"
@@ -82,6 +89,7 @@
 
             <TextView
                 android:id="@+id/textView3"
+                style="@style/TextParticipantInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -89,10 +97,12 @@
 
             <EditText
                 android:id="@+id/eTxtHeight"
+                style="@style/TextParticipantInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:autofillHints=""
+                android:backgroundTint="#000000"
                 android:ems="10"
                 android:hint="@string/hint"
                 android:inputType="number"
@@ -108,6 +118,7 @@
 
             <TextView
                 android:id="@+id/textView4"
+                style="@style/TextParticipantInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -115,10 +126,12 @@
 
             <EditText
                 android:id="@+id/eTxtWeight"
+                style="@style/TextParticipantInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:autofillHints=""
+                android:backgroundTint="#000000"
                 android:ems="10"
                 android:hint="@string/hint"
                 android:inputType="number"
@@ -134,6 +147,7 @@
 
             <TextView
                 android:id="@+id/textView6"
+                style="@style/TextParticipantInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_health" />
@@ -150,35 +164,45 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.2"
-                    android:text="@string/txt_bad" />
+                    android:buttonTint="#000000"
+                    android:text="@string/txt_bad"
+                    android:textColor="#000000" />
 
                 <RadioButton
                     android:id="@+id/rBtnNoGood"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.2"
-                    android:text="@string/txt_no_good" />
+                    android:buttonTint="#000000"
+                    android:text="@string/txt_no_good"
+                    android:textColor="#000000" />
 
                 <RadioButton
                     android:id="@+id/rBtnNormal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.2"
-                    android:text="@string/txt_normal" />
+                    android:buttonTint="#000000"
+                    android:text="@string/txt_normal"
+                    android:textColor="#000000" />
 
                 <RadioButton
                     android:id="@+id/rBtnGood"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.2"
-                    android:text="@string/txt_good" />
+                    android:buttonTint="#000000"
+                    android:text="@string/txt_good"
+                    android:textColor="#000000" />
 
                 <RadioButton
                     android:id="@+id/rBtnBest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.2"
-                    android:text="@string/txt_best" />
+                    android:buttonTint="#000000"
+                    android:text="@string/txt_best"
+                    android:textColor="#000000" />
             </RadioGroup>
 
         </LinearLayout>
@@ -192,6 +216,7 @@
 
             <TextView
                 android:id="@+id/textView13"
+                style="@style/TextParticipantInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
@@ -199,14 +224,17 @@
 
             <EditText
                 android:id="@+id/eTxtEmail"
+                style="@style/TextParticipantInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"
+                android:autofillHints=""
+                android:backgroundTint="#000000"
                 android:ems="10"
                 android:gravity="center"
                 android:hint="@string/hint_email"
                 android:inputType="textEmailAddress"
-                android:autofillHints="" />
+                android:textColorHint="#8E8E8E" />
 
         </LinearLayout>
 
@@ -219,6 +247,7 @@
 
             <TextView
                 android:id="@+id/textView14"
+                style="@style/TextParticipantInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -226,23 +255,34 @@
 
             <EditText
                 android:id="@+id/eTxtCellPhone"
+                style="@style/TextParticipantInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:autofillHints=""
+                android:backgroundTint="#000000"
                 android:ems="10"
                 android:gravity="center"
                 android:hint="@string/hint_cellphone"
                 android:inputType="phone"
-                android:autofillHints="" />
+                android:textColorHint="#8E8E8E" />
         </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.45"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/btnMainSurvey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="true"
-            android:text="@string/btn_next_survey" />
-
+            android:background="@drawable/btn_participant_next"
+            android:enabled="true" />
     </LinearLayout>
 
 </LinearLayout>

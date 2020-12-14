@@ -39,7 +39,7 @@ public class MainActivity extends FragmentActivity {
     private ArrayList<String> participantInfo;
     private JSONArray dataSource;
     private String categoryID, categoryName;
-    private int click = 0;
+//    private int click = 0;
 //    public static final String CATEGORY_ID = "cat_20201111141225";
 //    public static final String CATEGORY_ID = "cat_20201130222122";
     public static final String CATEGORY_ID = "cat_20201208145512";
@@ -62,8 +62,8 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        findViewById(R.id.cnstLayoutMain).setBackground(getDrawable(R.drawable.survey_bg1));
-        ((Button)findViewById(R.id.btnSurveyStart)).setText(getString(R.string.btn_next_description));
+//        findViewById(R.id.cnstLayoutMain).setBackground(getDrawable(R.drawable.survey_bg1));
+//        ((Button)findViewById(R.id.btnSurveyStart)).setText(getString(R.string.btn_next_description));
     }
 
     private void SetWidget() {
@@ -138,19 +138,21 @@ public class MainActivity extends FragmentActivity {
         startSurvey = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (click == 0) {
-                    findViewById(R.id.cnstLayoutMain).setBackground(getDrawable(R.drawable.survey_bg2));
-                    ((Button)v).setText(getString(R.string.btn_start));
-                    click++;
-                } else {
-                    Intent i = new Intent(MainActivity.this, ParticipantActivity.class);
-//                i.putExtra(LoginActivity.PARTICIPANT_INFO, participantInfo);
-                    startActivity(i);
-
-
-
-                    click = 0;
-                }
+            Intent i = new Intent(MainActivity.this, ParticipantActivity.class);
+            startActivity(i);
+//                if (click == 0) {
+//                    findViewById(R.id.cnstLayoutMain).setBackground(getDrawable(R.drawable.survey_bg2));
+//                    ((Button)v).setText(getString(R.string.btn_start));
+//                    click++;
+//                } else {
+//                    Intent i = new Intent(MainActivity.this, ParticipantActivity.class);
+////                i.putExtra(LoginActivity.PARTICIPANT_INFO, participantInfo);
+//                    startActivity(i);
+//
+//
+//
+//                    click = 0;
+//                }
             }
         };
     }

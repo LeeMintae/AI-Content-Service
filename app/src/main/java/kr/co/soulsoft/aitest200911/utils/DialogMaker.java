@@ -94,6 +94,10 @@ public class DialogMaker extends Dialog {
                 layoutParams.height = (int)(displayMetrics.heightPixels*0.9);
                 layoutParams.width = (int)(displayMetrics.widthPixels);
                 break;
+            case SURVEY_FINISH:
+                layoutParams.height = (int)(displayMetrics.heightPixels);
+                layoutParams.width = (int)(displayMetrics.widthPixels);
+                break;
             case 999:
                 break;
             default:

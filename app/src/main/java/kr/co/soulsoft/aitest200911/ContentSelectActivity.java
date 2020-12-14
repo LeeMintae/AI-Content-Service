@@ -269,7 +269,10 @@ public class ContentSelectActivity extends AppCompatActivity {
 
         try {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(saveFile+"/survey_check.txt", false));
-            String value = "[{id:"+id+",category_id:"+getIntent().getStringExtra(SurveyActivity.CATEGORY_ID)+",date:"+new MakeDate().makeDateString() +",status:done}]";
+            String value = "[{id:"+id+
+                    ",category_id:"+getIntent().getStringExtra(SurveyActivity.CATEGORY_ID)+
+                    ",date:"+new MakeDate().makeDateString() +
+                    ",status:done}]";
             bufferedWriter.append(value);
             bufferedWriter.close();
         } catch (IOException e) {

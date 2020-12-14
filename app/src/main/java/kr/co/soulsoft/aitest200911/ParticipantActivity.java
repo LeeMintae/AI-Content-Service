@@ -78,7 +78,7 @@ public class ParticipantActivity extends AppCompatActivity {
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(saveFile+"/survey_check.txt"));
             String temp = bufferedReader.readLine();
-            Log.d("<<<<<<<<<<<<<<<<< 정보 확인", temp);
+            Log.d("<<<<<<<<<<<<<<<<< 참여 정보 확인", temp);
             JSONArray jsonArray = new JSONArray(temp);
             JSONObject record = jsonArray.getJSONObject(0);
             if (record.getString("category_id").equals(MainActivity.CATEGORY_ID)) {

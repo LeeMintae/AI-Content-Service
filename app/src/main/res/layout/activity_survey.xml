@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/survey_main"
+    android:background="@drawable/survey_main2"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="20dp"
@@ -15,7 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.3"
-        android:text="TextView"
         android:textColor="@android:color/background_dark"
         android:textSize="18sp" />
 
@@ -23,7 +22,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.2"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/vPgrQuestion"
@@ -37,55 +38,62 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.2"
+        android:paddingLeft="10dp"
         android:visibility="invisible">
 
         <RadioButton
             android:id="@+id/rBtnAnswer1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="#000000"
             android:text="@string/rbtn_empty"
             android:textAppearance="@style/TextAnswer"
-            android:textColor="#FFFFFF" />
+            android:textColor="@android:color/background_dark" />
 
         <RadioButton
             android:id="@+id/rBtnAnswer2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="#000000"
             android:text="@string/rbtn_empty"
             android:textAppearance="@style/TextAnswer"
-            android:textColor="#FFFFFF" />
+            android:textColor="#000000" />
 
         <RadioButton
             android:id="@+id/rBtnAnswer3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="#000000"
             android:text="@string/rbtn_empty"
             android:textAppearance="@style/TextAnswer"
-            android:textColor="#FFFFFF" />
+            android:textColor="#000000" />
 
         <RadioButton
             android:id="@+id/rBtnAnswer4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="#000000"
             android:text="@string/rbtn_empty"
             android:textAppearance="@style/TextAnswer"
-            android:textColor="#FFFFFF" />
+            android:textColor="#000000" />
 
         <RadioButton
             android:id="@+id/rBtnAnswer5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="#000000"
             android:text="@string/rbtn_empty"
             android:textAppearance="@style/TextAnswer"
-            android:textColor="#FFFFFF" />
+            android:textColor="#000000" />
 
         <RadioButton
             android:id="@+id/rBtnAnswer6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:buttonTint="#000000"
             android:text="@string/rbtn_empty"
             android:textAppearance="@style/TextAnswer"
-            android:textColor="#FFFFFF" />
+            android:textColor="#000000" />
     </RadioGroup>
 
     <LinearLayout
@@ -98,14 +106,20 @@
             android:id="@+id/btnPrevSurvey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:text="@string/btn_prev_survey" />
+            android:background="@drawable/btn_survey_prev"
+            android:paddingRight="5dp" />
 
         <Button
             android:id="@+id/btnNextSurvey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:text="@string/btn_next_survey" />
+            android:background="@drawable/btn_survey_next"
+            android:paddingRight="5dp" />
     </LinearLayout>
 </LinearLayout>
