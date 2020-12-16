@@ -25,6 +25,8 @@
     <string name="msg_dialog_content_title">콘텐츠 리스트 로딩</string>
     <string name="msg_dialog_content_loading">콘텐츠 리스트를 불러오는 중입니다</string>
 
+    <string name="msg_network_error">네트워크 문제로 설문 응답이 완료되지 못했습니다. 잠시 후 다시 시도해 주세요</string>
+
     <!--    UI Message-->
     <string name="msg_survey_purpose">&#160;&#160;본 설문은 여러가지 문항을 통해 사용자의 신체적 정신적인 건강유형을 파악하고, AI를 통해 사용자의 건강유형을 선별하여 적절한 서비스를 제공하기 위한 목적으로 진행됩니다. \n
     사용자의 개인정보는 분석을 위해서 개인의 동의하에 이용되며 3년 유지 후 추가의 개인정보 제공 동의가 없을경우 일괄 파기됩니다.</string>

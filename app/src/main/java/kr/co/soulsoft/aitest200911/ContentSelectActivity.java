@@ -190,6 +190,7 @@ public class ContentSelectActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), getString(R.string.msg_content_limit), Toast.LENGTH_SHORT).show();
                     return;
                 }
+                v.setEnabled(false);
                 Log.d("<<<<<<<<<<<<< 선택 결과", SELECTED_CONTENTS.toString());
                 ArrayList<String> participantInfo = getIntent().getStringArrayListExtra(ParticipantActivity.PARTICIPANT_INFO);
                 new DatabaseRequest(getBaseContext(), executeListener).execute(DatabaseRequest.INSERT,
@@ -233,6 +234,8 @@ public class ContentSelectActivity extends AppCompatActivity {
                             getIntent().getStringExtra(SurveyActivity.SURVEY_ANSWER),
                             recordValue.toString());
                 } else {
+                    Toast.makeText(getBaseContext(), getString(R.string.msg_network_error), Toast.LENGTH_SHORT).show();
+                    findViewById(R.id.btnFinishSurvey).setEnabled(true);
                     Log.d("<<<<<<<<<<<<<<<<<< 설문자 생성 실패", result[1]);
                 }
             }

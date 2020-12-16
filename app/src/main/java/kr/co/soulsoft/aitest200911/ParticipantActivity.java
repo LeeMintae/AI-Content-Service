@@ -60,6 +60,9 @@ public class ParticipantActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+//            getWindow().setDecorFitsSystemWindows(false);
+//        }
         setContentView(R.layout.activity_participant);
         checkRecord();
         setWidget();
@@ -100,6 +103,7 @@ public class ParticipantActivity extends AppCompatActivity {
     }
 
     private void setWidget() {
+//        setFullScreen();
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add("남자");
         arrayList.add("여자");
@@ -268,6 +272,11 @@ public class ParticipantActivity extends AppCompatActivity {
                 }).show();
             }
         };
+    }
+
+    private void setFullScreen() {
+        View decor = this.getWindow().getDecorView();
+        decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 
     private boolean checkDate() {

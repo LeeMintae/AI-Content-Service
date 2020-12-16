@@ -48,13 +48,13 @@ public class SurveyAdapter extends PagerAdapter {
                 String parentID = dataSource.getJSONObject(dataIndex).getString("m_survey_id");
                 for(int index=0; index<parentData.length(); index++) {
                     if (parentData.getJSONObject(index).getString("m_survey_id").equals(parentID)) {
-                        ((TextView)view.findViewById(R.id.tVwQuestion1)).setText(parentData.getJSONObject(index).getString("m_survey_text"));
+//                        ((TextView)view.findViewById(R.id.tVwQuestion1)).setText(parentData.getJSONObject(index).getString("m_survey_text"));
                     }
                 }
                 ((TextView)view.findViewById(R.id.tVwQuestion2)).setText(dataSource.getJSONObject(dataIndex).getString("m_sub_text"));
             } else {
-                view.findViewById(R.id.tVwQuestion1).setVisibility(View.GONE);
-                view.findViewById(R.id.spaceQuestionGap).setVisibility(View.GONE);
+//                view.findViewById(R.id.tVwQuestion1).setVisibility(View.GONE);
+//                view.findViewById(R.id.spaceQuestionGap).setVisibility(View.GONE);
                 Log.d("<<<<<<<<<<<<<<<<<텍스트 확인",dataSource.getJSONObject(dataIndex).getString("m_survey_text") );
                 ((TextView)view.findViewById(R.id.tVwQuestion2)).setText(Html.fromHtml(dataSource.getJSONObject(dataIndex).getString("m_survey_text"), Html.FROM_HTML_MODE_LEGACY));
             }
