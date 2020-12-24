@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">나만의 재밌는 다이어트</string>
     <string name="kakao_app_key">44d8245876e303881266ed530a7464d6</string>
+    <string name="kakao_scheme">kakao44d8245876e303881266ed530a7464d6</string>
     <string name="btn_next_description">다음</string>
     <string name="btn_start">설문을 시작합니다</string>
     <string name="btn_next_survey">다음으로</string>\

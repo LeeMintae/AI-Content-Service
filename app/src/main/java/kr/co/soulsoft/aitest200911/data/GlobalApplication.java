@@ -2,6 +2,10 @@ package kr.co.soulsoft.aitest200911.data;
 
 import android.app.Application;
 
+import com.kakao.sdk.common.KakaoSdk;
+
+import kr.co.soulsoft.aitest200911.R;
+
 
 public class GlobalApplication extends Application {
     private static GlobalApplication instance;
@@ -17,6 +21,6 @@ public class GlobalApplication extends Application {
         super.onCreate();
         instance = this;
 
-
+        KakaoSdk.init(this, getString(R.string.kakao_app_key));
     }
 }

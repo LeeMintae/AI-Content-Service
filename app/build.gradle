@@ -24,9 +24,15 @@ android {
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
+
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
@@ -45,4 +51,5 @@ dependencies {
     implementation 'com.google.api-client:google-api-client-gson:+'
 
 //    implementation group:project.KAKAO_SDK_GROUP,name:'usermgmt',version:project.KAKAO_SDK_VERSION
+    implementation 'com.kakao.sdk:v2-user:2.2.0'
 }
