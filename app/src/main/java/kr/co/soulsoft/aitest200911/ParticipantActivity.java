@@ -85,8 +85,10 @@ public class ParticipantActivity extends AppCompatActivity {
             JSONArray jsonArray = new JSONArray(temp);
             JSONObject record = jsonArray.getJSONObject(0);
             if (record.getString("category_id").equals(MainActivity.CATEGORY_ID)) {
-                DialogMaker dialogMaker = new DialogMaker(ParticipantActivity.this, DialogMaker.SURVEY_FINISH, this);
-                dialogMaker.show();
+                Intent i = new Intent(ParticipantActivity.this, PersonalActivity.class);
+                startActivity(i);
+//                DialogMaker dialogMaker = new DialogMaker(ParticipantActivity.this, DialogMaker.SURVEY_FINISH, this);
+//                dialogMaker.show();
                 return true;
             }
         } catch (FileNotFoundException e) {

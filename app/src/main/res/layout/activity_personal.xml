@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/personal_bg2"
+    android:orientation="vertical"
+    tools:context=".PersonalActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="75dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView20"
+            style="@style/TextUserType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:text="T16 형" />
+
+        <TextView
+            android:id="@+id/textView7"
+            style="@style/TextUserType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="지수님" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView22"
+            style="@style/TextDailyScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="85dp"
+            android:paddingTop="20dp"
+            android:text="12월 23일 운동지수 : " />
+
+        <TextView
+            android:id="@+id/textView21"
+            style="@style/TextDailyPoint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="기본(00)" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="600dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btnPersonalAnalysis"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/personal_btn01"
+            android:contentDescription="@string/desc_default_image" />
+
+        <ImageButton
+            android:id="@+id/btnPersonalContent"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/personal_btn02"
+            android:contentDescription="@string/desc_default_image" />
+
+        <ImageButton
+            android:id="@+id/btnPersonalProgram"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/personal_btn03"
+            android:contentDescription="@string/desc_default_image" />
+
+        <ImageButton
+            android:id="@+id/btnPersonalInfo"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/personal_btn04"
+            android:contentDescription="@string/desc_default_image" />
+    </LinearLayout>
+</LinearLayout>

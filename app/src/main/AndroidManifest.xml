@@ -17,10 +17,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ContentRecmndActivity"></activity>
+        <activity android:name=".PersonalActivity" />
+
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="@string/kakao_app_key"/>
-        <activity android:name=".ContentViewerActivity"></activity>
+            android:value="@string/kakao_app_key" />
+
+        <activity android:name=".ContentViewerActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

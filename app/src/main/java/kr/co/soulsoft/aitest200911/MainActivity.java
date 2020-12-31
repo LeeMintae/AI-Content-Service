@@ -40,9 +40,9 @@ public class MainActivity extends FragmentActivity {
     private JSONArray dataSource;
     private String categoryID, categoryName;
 //    private int click = 0;
-//    public static final String CATEGORY_ID = "cat_20201111141225";
+    public static final String CATEGORY_ID = "cat_20201111141225";
 //    public static final String CATEGORY_ID = "cat_20201130222122";
-    public static final String CATEGORY_ID = "cat_20201208145512";
+//    public static final String CATEGORY_ID = "cat_20201208145512";
 
     //endregion
 
