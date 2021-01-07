@@ -1,11 +1,16 @@
 package kr.co.soulsoft.aitest200911.data;
 
 import android.app.Application;
+import android.content.Context;
 
-import com.kakao.sdk.common.KakaoSdk;
+import androidx.annotation.Nullable;
 
-import kr.co.soulsoft.aitest200911.R;
-
+import com.kakao.auth.ApprovalType;
+import com.kakao.auth.AuthType;
+import com.kakao.auth.IApplicationConfig;
+import com.kakao.auth.ISessionConfig;
+import com.kakao.auth.KakaoAdapter;
+import com.kakao.auth.KakaoSDK;
 
 public class GlobalApplication extends Application {
     private static GlobalApplication instance;
@@ -21,6 +26,57 @@ public class GlobalApplication extends Application {
         super.onCreate();
         instance = this;
 
-        KakaoSdk.init(this, getString(R.string.kakao_app_key));
+        KakaoSDK.init(new KakaoSDKAdapter());
     }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        instance = null;
+    }
+
+    public static class KakaoSDKAdapter extends KakaoAdapter {
+
+        @Override
+        public ISessionConfig getSessionConfig() {
+            return new ISessionConfig() {
+                @Override
+                public AuthType[] getAuthTypes() {
+                    return new AuthType[0];
+                }
+
+                @Override
+                public boolean isUsingWebviewTimer() {
+                    return false;
+                }
+
+                @Override
+                public boolean isSecureMode() {
+                    return false;
+                }
+
+                @Nullable
+                @Override
+                public ApprovalType getApprovalType() {
+                    return null;
+                }
+
+                @Override
+                public boolean isSaveFormData() {
+                    return false;
+                }
+            };
+        }
+
+        @Override
+        public IApplicationConfig getApplicationConfig() {
+            return new IApplicationConfig() {
+                @Override
+                public Context getApplicationContext() {
+                    return GlobalApplication.getGlobalApplicationContext();
+                }
+            };
+        }
+    }
+
 }

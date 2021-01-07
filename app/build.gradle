@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 30
@@ -50,6 +51,12 @@ dependencies {
     implementation 'com.google.api-client:google-api-client-android:+'
     implementation 'com.google.api-client:google-api-client-gson:+'
 
-//    implementation group:project.KAKAO_SDK_GROUP,name:'usermgmt',version:project.KAKAO_SDK_VERSION
-    implementation 'com.kakao.sdk:v2-user:2.2.0'
+    implementation group:project.KAKAO_SDK_GROUP,name:'usermgmt',version:project.KAKAO_SDK_VERSION
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+//    implementation 'com.kakao.sdk:v2-user:2.2.0'
+}
+repositories {
+    maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
+    mavenCentral()
 }
