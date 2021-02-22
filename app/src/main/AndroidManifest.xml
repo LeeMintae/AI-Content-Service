@@ -10,15 +10,17 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".data.GlobalApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
-        android:name=".data.GlobalApplication">
-        <activity android:name=".ContentRecmndActivity"></activity>
+        android:usesCleartextTraffic="true">
+        <activity android:name=".ExercisePlanActivity"></activity>
+        <activity android:name=".FoodPlanActivity" />
+        <activity android:name=".ContentRecmndActivity" />
         <activity android:name=".PersonalActivity" />
 
         <meta-data
